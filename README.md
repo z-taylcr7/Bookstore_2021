@@ -130,9 +130,9 @@
 
 int maxelements//数组元素数量上限, 
 
-`struct blocknode{`
+`struct blockNode{`
 
-`int numelements，pair<key,value> elements[maxelements];blocknode next;`
+`int numElements，pair<key,value> elements[maxElements];blockNode next;`
 
 `}`
 
@@ -220,7 +220,7 @@ int maxelements//数组元素数量上限,
 
 #### headfile：Express.h:
 
-`express（）`
+`express()`
 
 `usage：express（TokenScanner*，Accounts current_account,Diary myDiary ）`
 
@@ -300,7 +300,7 @@ int maxelements//数组元素数量上限,
 
 括号内数为预设长度，**如果不够则用’#'补**
 
-op=：
+**op=：**
 
 su——“login.”
 
