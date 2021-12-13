@@ -132,7 +132,7 @@ int maxelements//数组元素数量上限,
 
 `struct blockNode{`
 
-`int numElements，pair<key,value> elements[maxElements];blockNode next;`
+`int numElements，pair<key,value> elements[maxElements];blockNode* next;`
 
 `}`
 
