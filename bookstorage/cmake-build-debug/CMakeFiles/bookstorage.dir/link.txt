@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/bookstorage.dir/main.cpp.o  -o bookstorage 
