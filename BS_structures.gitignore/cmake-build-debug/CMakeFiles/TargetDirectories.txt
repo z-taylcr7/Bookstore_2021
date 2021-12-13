@@ -1,3 +1,0 @@
-/mnt/c/Users/Cristiano/CLionProjects/bookstorm/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/Cristiano/CLionProjects/bookstorm/cmake-build-debug/CMakeFiles/edit_cache.dir
-/mnt/c/Users/Cristiano/CLionProjects/bookstorm/cmake-build-debug/CMakeFiles/bookstorm.dir
