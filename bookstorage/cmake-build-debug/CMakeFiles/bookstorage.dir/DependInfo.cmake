@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/mnt/c/Users/Cristiano/CLionProjects/bookstorage/main.cpp" "/mnt/c/Users/Cristiano/CLionProjects/bookstorage/cmake-build-debug/CMakeFiles/bookstorage.dir/main.cpp.o"
+  "/mnt/d/book/bookstorage/main.cpp" "/mnt/d/book/bookstorage/cmake-build-debug/CMakeFiles/bookstorage.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

@@ -1,3 +1,3 @@
-/mnt/c/Users/Cristiano/CLionProjects/bookstorage/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/Cristiano/CLionProjects/bookstorage/cmake-build-debug/CMakeFiles/edit_cache.dir
-/mnt/c/Users/Cristiano/CLionProjects/bookstorage/cmake-build-debug/CMakeFiles/bookstorage.dir
+/mnt/d/book/bookstorage/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/mnt/d/book/bookstorage/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/d/book/bookstorage/cmake-build-debug/CMakeFiles/bookstorage.dir

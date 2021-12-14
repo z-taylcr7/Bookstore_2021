@@ -7,7 +7,6 @@
 #include <algorithm>
 #define fastcall __attribute__((optimize("-O3")))
 #pragma GCC optimize(2)
-#pragma GCC optimize(3)
 #pragma GCC optimize("Ofast")
 #pragma GCC optimize("inline")
 #pragma GCC optimize("-fgcse")
@@ -55,7 +54,7 @@ using std::fstream;
 using std::ifstream;
 using std::ofstream;
 
-const int maxElements=1900;
+const int maxElements=1830;
 
 
 template<class T>
@@ -154,6 +153,7 @@ private:
 public:
     BlockList() {
         blockNode t;
+        t.numElements=0;
         t.nextBlock=-1;
     }
     ~BlockList(){}
@@ -207,7 +207,7 @@ public:
         blockNode it;int pos=headIndex,tmp=headIndex;
         list.read(it,headIndex);
         for(it;pos!=-1;tmp=pos,pos=it.nextBlock,list.read(it,pos)){
-            if(it.elements[0]<node)continue;
+            if(it.elements[0]<node||it.elements[0]==node)continue;
             else{break;}
         }
         pos=tmp;
