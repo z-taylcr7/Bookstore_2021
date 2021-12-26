@@ -3,4 +3,4 @@ project(code)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(bookstorage main.cpp)
+add_executable(code error.cpp main.cpp)
