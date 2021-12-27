@@ -246,7 +246,7 @@ public:
         if(!found)cout<<"";
         else{
             for(int i=0;i<cnt;i++){
-                cout<<queue[i]<<' ';
+                cout<<queue[i]<<'\n';
             }
         }
         cout<<'\n';
@@ -263,7 +263,8 @@ public:
         }
     }
     void update(T t,T n){
-        data.update(n,data.find(t));
+        data_file=data_name;
+        data.updateData(t,n);
     }
     bool findOne(const string& key,T& ans){
         data_file=data_name;

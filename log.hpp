@@ -25,7 +25,7 @@ public:
 };
 
 ostream &operator<<(ostream &os, const trade &rhs) {
-    os<<fixed<<setprecision(2)<<'+'<<rhs.in<<'/'<<'-'<<rhs.out;
+    os<<fixed<<setprecision(2)<<"+ "<<rhs.in<<" - "<<rhs.out;
     return os;
 }
 

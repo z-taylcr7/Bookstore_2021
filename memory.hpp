@@ -57,6 +57,22 @@ public:
         file.write(reinterpret_cast<char *>(&t), sizeofT);
         file.close();
     }
+    void updateData(T &t, T&n) {
+        file.open(file_name);
+        int d=indexmax;
+        while(d>5){
+            T tmp;
+            read(tmp,d);
+            if(tmp==t)
+            {
+                file.seekp(d);
+                file.write(reinterpret_cast<char *>(&n), sizeofT);
+            }
+            d-=sizeofT;
+        }
+
+        file.close();
+    }
     void read(T &t, const int index) {
         file.open(file_name);
         file.seekp(index);

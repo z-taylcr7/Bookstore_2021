@@ -5,6 +5,7 @@
 #ifndef MAIN_CPP_BOOK_HPP
 #define MAIN_CPP_BOOK_HPP
 #include <string>
+#include <iomanip>
 
 class book{
 char ISBN[20] ;
@@ -120,7 +121,7 @@ ostream &operator<<(ostream &os, const book &rhs) {
    for(int i=0;i<rhs.keys-1;i++){
        os<<rhs.keyword[i]<<'|';
    }os<<rhs.keyword[rhs.keys-1]<<'\t';
-   os<<rhs.price<<'\t'<<rhs.amount<<'\t'<<'\n';
+   os<<fixed<<setprecision(2)<<toFloat(rhs.price)<<'\t'<<rhs.amount;
 
    return os;
 }
@@ -128,7 +129,6 @@ ostream &operator<<(ostream &os, const book &rhs) {
 float book::getPrice(){
     return toFloat(price);
 }
-
 void book::changeIsbn(string s) {
     bookList_ISBN.Delete(ISBN,*this);
     bookList_book_name.Delete(book_name,*this);
@@ -202,5 +202,6 @@ void book::changePrice(string s) {
     bookList_book_name.insert(book_name,*this);
     bookList_ISBN.insert(ISBN,*this);
 }
+
 
 #endif //MAIN_CPP_BOOK_HPP

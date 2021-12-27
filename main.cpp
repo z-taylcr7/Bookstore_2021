@@ -44,7 +44,7 @@ int main()
             TokenScanner token_scanner(exp);
             currentUser.allocate(token_scanner);
         }catch(errorException e){
-            cerr<<"Invalid"<<endl;
+            cerr<<"Invalid"<<e.getMessage()<<endl;
         }
     }
     end=clock();

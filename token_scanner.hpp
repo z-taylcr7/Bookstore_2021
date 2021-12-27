@@ -54,6 +54,7 @@ void TokenScanner::divide(const string &s){
         if(s[i]==' '){
             Node*n=new Node;
             n->token=s.substr(j,i-j);j=i+1;
+            while(s[j]==' '&&j!=len-1)j++;
             p->next=n;
             p=p->next;
         }

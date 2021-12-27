@@ -248,6 +248,7 @@ user &user::operator=(const user &obj) {
 }
 
 void user::show(TokenScanner &s) {
+    if(pr=='0')error("you don't have the priority. Sign in first");
     if(!s.hasMoreToken()){bookList_ISBN.scroll();return;}
     string t=s.nextToken();
     if(t=="finance"){
@@ -263,11 +264,13 @@ void user::show(TokenScanner &s) {
         if(t[i]=='='){
             type=t.substr(0,i);
             token=t.substr(i+1);
+            break;
         }
         i++;
     }
     if(i==len)error("token required.");
     if(type=="ISBN")bookList_ISBN.find(token);
+    token=token.substr(1,token.length()-2);
     if(type=="name")bookList_book_name.find(token);
     if(type=="author")bookList_author.find(token);
     if(type=="keyword"){
@@ -278,10 +281,8 @@ void user::show(TokenScanner &s) {
 }
 
 void user::select(TokenScanner &s) {
-    char* isbn=new char[20];
     string Isbn=s.nextToken();
     book book1(Isbn);
-    strcpy(isbn,Isbn.c_str());
     if(!bookList_ISBN.findOne(Isbn,book1)){
         bookList_ISBN.insert(Isbn,book1);
     }
@@ -307,6 +308,9 @@ void user::modify(TokenScanner &s) {
         if(i==len)error("token required.");
         if(type=="ISBN"){
             token=token.substr(1,token.length()-2);
+            string Isbn=token;
+            book book1(Isbn);
+            if(bookList_ISBN.findOne(Isbn,book1))error("ISBN should be unique.");
             currentBook.changeIsbn(token);
         }
         if(type=="name") {
@@ -343,6 +347,7 @@ void user::buy(TokenScanner &s) {
 }
 
 void user::import(TokenScanner &s) {
+    if(!selected)error("select a book first.");
         int quantity= toNumber(s.nextToken());
         currentBook.addAmount(quantity);
         float price= toFloat(s.nextToken());
