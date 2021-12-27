@@ -245,7 +245,7 @@ public:
         if(!found)cout<<"\n";
         else{
             for(int i=0;i<cnt;i++){
-                cout<<queue[i]<<'\n';
+                cout<<queue[i]<<endl;
             }
         }
     }

@@ -57,16 +57,11 @@ public:
 
     void buy(TokenScanner& s);
 
-    void import(TokenScanner &s);
-
-    void express(const string& s,string &type,string &token);
+    void import(TokenScanner &s) const;
 
     //*********diaries***************//
     void showFinance(const string& times);
 
-    static void addIncome(float x);
-
-    static void addExpense(float x);
 
     //**********operators*****************//
     friend ostream &operator<<(ostream &os, const user &user);
@@ -123,25 +118,28 @@ user::user(const user&obj){
 void user::allocate(TokenScanner& s){
     string cmd;
     cmd=s.firstToken();
-    if(cmd=="su")su(s);
-    if(cmd=="logout")logout(s);
-    if(cmd=="register")register_account(s);
-    if(cmd=="passwd")passwd(s);
-    if(cmd=="useradd")useradd(s);
-    if(cmd=="delete")Delete(s);
-    if(cmd=="show")show(s);
-    if(cmd=="buy")buy(s);
-    if(cmd=="import")import(s);
-    if(cmd=="select")select(s);
-    if(cmd=="modify")modify(s);
+    if(cmd=="su"){su(s);return;}
+    if(cmd=="logout"){logout(s);return;}
+    if(cmd=="register"){register_account(s);return;}
+    if(cmd=="passwd"){passwd(s);return;}
+    if(cmd=="useradd"){useradd(s);return;}
+    if(cmd=="delete"){Delete(s);return;}
+    if(cmd=="show"){show(s);return;}
+    if(cmd=="buy"){buy(s);return;}
+    if(cmd=="import"){import(s);return;}
+    if(cmd=="select"){select(s);return;}
+    if(cmd=="modify"){modify(s);return;}
+    error("no command found!");
 }
 
 void user::su(TokenScanner& s) const{
     user user1;
+    if(!s.hasMoreToken())error("token needed");
     if(userList.findOne(s.nextToken(),user1)) {
         if (pr <= user1.pr) {
             if(!s.hasMoreToken())error("password required!");
             string st = s.nextToken();
+            if(s.hasMoreToken())error("token too much!");
             char *tmp = new char[30];
             strcpy(tmp, st.c_str());
             if (strcmp(tmp, user1.password)!=0) {
@@ -158,7 +156,8 @@ void user::su(TokenScanner& s) const{
     }
 }
 void user::logout(TokenScanner& s) {
-        if(pr=='0')error("no account!");
+    if(s.hasMoreToken())error("token too much!");
+    if(pr=='0')error("no account!");
         log_stack.pop_back();
         if(log_stack.empty())log_stack.push_back(user(0));
         currentUser=log_stack.back();
@@ -169,6 +168,7 @@ void user::register_account(TokenScanner& s){
     string _id=s.nextToken();
     string _pw=s.nextToken();
     string _name=s.nextToken();
+    if(s.hasMoreToken())error("token too much!");
     if(!isUserName(_name)||!(isID(_id))||!isPassword(_pw)){
         error("input error!");//todo:input error
     }
@@ -206,10 +206,15 @@ void user::passwd(TokenScanner& s) const{
 }
 void user::useradd(TokenScanner& s) const {
     if(pr=='0'||pr=='1')error("you can't even do this!");
+    if(!s.hasMoreToken())error("token needed");
     string _id=s.nextToken();
+    if(!s.hasMoreToken())error("token needed");
     string _pw=s.nextToken();
+    if(!s.hasMoreToken())error("token needed");
     string _pr=s.nextToken();
+    if(!s.hasMoreToken())error("token needed");
     string _name=s.nextToken();
+    if(s.hasMoreToken())error("token too much!");
     user user1(_id,_pw,_name,_pr[0]);
     if(!isUserName(_name)||!(isID(_id))||!isPassword(_pw)||!isPriority(_pr)){
         cout<<"input error"<<'\n';
@@ -224,7 +229,9 @@ void user::useradd(TokenScanner& s) const {
 }
 void user::Delete(TokenScanner& s) {
     if(pr!='7')error("only superUser can delete an account.");
+    if(!s.hasMoreToken())error("token needed");
     string _id=s.nextToken();
+    if(s.hasMoreToken())error("token too much!");
     user tmp;
     if(!userList.findOne(_id,tmp)){
         error("account not found!");//todo:cannot find
@@ -260,7 +267,6 @@ void user::show(TokenScanner &s) {
         else showFinance("all");
         return;
     }
-    t=t.substr(1);
     string type;
     string token;
     int len=t.length();int i=0;
@@ -273,7 +279,10 @@ void user::show(TokenScanner &s) {
         i++;
     }
     if(i==len)error("token required.");
+    if(type[0]!='-')error("formula error'-'");
+    type=type.substr(1);
     if(type=="ISBN")bookList_ISBN.find(token);
+    if(token[0]!='"'||token[token.length()-1]!='"')error("formula error");
     token=token.substr(1,token.length()-2);
     if(type=="name")bookList_book_name.find(token);
     if(type=="author")bookList_author.find(token);
@@ -298,7 +307,6 @@ void user::select(TokenScanner &s) {
 void user::modify(TokenScanner &s) {
     if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you want to modify.");
     if(!selected)error("please select a book first!");
-    if(pr!='3'&&pr!='7')error("out of your priority.");
     while(s.hasMoreToken()){
         string t=s.nextToken().substr(1);
         string type;
@@ -352,7 +360,7 @@ void user::buy(TokenScanner &s) {
     }
 }
 
-void user::import(TokenScanner &s) {
+void user::import(TokenScanner &s) const {
     if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you want to import.");
     if(!selected)error("select a book first.");
         int quantity= toNumber(s.nextToken());
@@ -361,10 +369,6 @@ void user::import(TokenScanner &s) {
         //todo:log data.
         trade log(0,price);
         finance.write(log);
-}
-
-void user::express(const string &s, string &type, string &token) {
-
 }
 
 ostream &operator<<(ostream &os, const user &user) {
@@ -393,7 +397,7 @@ void user::showFinance(const string& times) {
             sum += tmp;
             d -= sizeof(trade);
         }
-        cout<<sum<<'\n';
+        cout<<sum<<endl;
         return;
     }
     int t=toNumber(times);
