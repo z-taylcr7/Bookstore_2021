@@ -158,6 +158,7 @@ void user::su(TokenScanner& s) const{
     }
 }
 void user::logout(TokenScanner& s) {
+        if(pr=='0')error("no account!");
         log_stack.pop_back();
         if(log_stack.empty())log_stack.push_back(user(0));
         currentUser=log_stack.back();
@@ -179,6 +180,7 @@ void user::register_account(TokenScanner& s){
     }
 }
 void user::passwd(TokenScanner& s) const{
+    if(pr=='0')error("please create an account!");
     if(pr=='7'){
         user user1;
         if(userList.findOne(s.nextToken(),user1)){
@@ -203,16 +205,17 @@ void user::passwd(TokenScanner& s) const{
     }
 }
 void user::useradd(TokenScanner& s) const {
+    if(pr=='0'||pr=='1')error("you can't even do this!");
     string _id=s.nextToken();
     string _pw=s.nextToken();
     string _pr=s.nextToken();
     string _name=s.nextToken();
     user user1(_id,_pw,_name,_pr[0]);
     if(!isUserName(_name)||!(isID(_id))||!isPassword(_pw)||!isPriority(_pr)){
-        cout<<"input error"<<endl;
+        cout<<"input error"<<'\n';
         error("input error!");//todo:input error
     }else {
-        if(_pr[0]>pr)error("this operation is beyond your priority.");//todo::priority error;
+        if(_pr[0]>pr||_pr[0]==pr)error("this operation is beyond your priority.");//todo::priority error;
         if(userList.findOne(_id,user1)){
             error("account has been registered!");//todo:re register ;
         }
@@ -220,6 +223,7 @@ void user::useradd(TokenScanner& s) const {
     }
 }
 void user::Delete(TokenScanner& s) {
+    if(pr!='7')error("only superUser can delete an account.");
     string _id=s.nextToken();
     user tmp;
     if(!userList.findOne(_id,tmp)){
@@ -281,6 +285,7 @@ void user::show(TokenScanner &s) {
 }
 
 void user::select(TokenScanner &s) {
+    if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you wanna select.");
     string Isbn=s.nextToken();
     book book1(Isbn);
     if(!bookList_ISBN.findOne(Isbn,book1)){
@@ -291,7 +296,9 @@ void user::select(TokenScanner &s) {
 }
 
 void user::modify(TokenScanner &s) {
+    if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you want to modify.");
     if(!selected)error("please select a book first!");
+    if(pr!='3'&&pr!='7')error("out of your priority.");
     while(s.hasMoreToken()){
         string t=s.nextToken().substr(1);
         string type;
@@ -337,7 +344,7 @@ void user::buy(TokenScanner &s) {
         int quantity= toNumber(s.nextToken());
         book1.addAmount(-quantity);
         float price=quantity*book1.getPrice();
-        cout<<fixed<<setprecision(2)<<price<<endl;
+        cout<<fixed<<setprecision(2)<<price<<'\n';
         //todo:log data.
         trade log(price,0);
         finance.write(log);
@@ -347,6 +354,7 @@ void user::buy(TokenScanner &s) {
 }
 
 void user::import(TokenScanner &s) {
+    if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you want to import.");
     if(!selected)error("select a book first.");
         int quantity= toNumber(s.nextToken());
         currentBook.addAmount(quantity);
@@ -386,7 +394,7 @@ void user::showFinance(const string& times) {
             sum += tmp;
             d -= sizeof(trade);
         }
-        cout<<sum<<endl;
+        cout<<sum<<'\n';
         return;
     }
     int t=toNumber(times);
@@ -397,7 +405,7 @@ void user::showFinance(const string& times) {
         sum+=tmp;
         d-=sizeof(trade);
     }
-    cout<<sum<<endl;
+    cout<<sum<<'\n';
 }
 
 

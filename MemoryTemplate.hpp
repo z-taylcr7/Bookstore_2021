@@ -243,13 +243,12 @@ public:
             list.read(it,pos);
             if(strcmp(it.elements[0].Key().c_str(),key.c_str())>0)break;
         }
-        if(!found)cout<<"";
+        if(!found)cout<<"\n";
         else{
             for(int i=0;i<cnt;i++){
                 cout<<queue[i]<<'\n';
             }
         }
-        cout<<'\n';
     }
     void scroll(){
         data_file=data_name;
