@@ -130,8 +130,8 @@ float book::getPrice(){
 }
 void book::changeIsbn(string s) {
     bookList_ISBN.Delete(ISBN,*this);
-    bookList_book_name.Delete(book_name,*this);
-    bookList_author.Delete(author,*this);
+    if(strlen(book_name)!=0)bookList_book_name.Delete(book_name,*this);
+    if(strlen(author)!=0)bookList_author.Delete(author, *this);
     for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],*this);
     strcpy(ISBN,s.c_str());
     for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],*this);
@@ -143,8 +143,8 @@ void book::changeIsbn(string s) {
 void book::changeBookName(string s) {
 
     bookList_ISBN.Delete(ISBN,*this);
-    bookList_book_name.Delete(book_name,*this);
-    bookList_author.Delete(author,*this);
+    if(strlen(book_name)!=0)bookList_book_name.Delete(book_name,*this);
+    if(strlen(author)!=0)bookList_author.Delete(author, *this);
     for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],*this);
     strcpy(book_name,s.c_str());
     for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],*this);
@@ -155,8 +155,8 @@ void book::changeBookName(string s) {
 
 void book::changeAuthor(string s) {
     bookList_ISBN.Delete(ISBN,*this);
-    bookList_book_name.Delete(book_name,*this);
-    bookList_author.Delete(author,*this);
+    if(strlen(book_name)!=0)bookList_book_name.Delete(book_name,*this);
+    if(strlen(author)!=0)bookList_author.Delete(author, *this);
     for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],*this);
     strcpy(author,s.c_str());
     for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],*this);
@@ -167,8 +167,8 @@ void book::changeAuthor(string s) {
 
 void book::changeKeyword(string s) {
     bookList_ISBN.Delete(ISBN,*this);
-    bookList_book_name.Delete(book_name,*this);
-    bookList_author.Delete(author,*this);
+    if(strlen(book_name)!=0)bookList_book_name.Delete(book_name,*this);
+    if(strlen(author)!=0)bookList_author.Delete(author, *this);
     for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],*this);
     toKeyword(s);
     for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],*this);
@@ -180,8 +180,8 @@ void book::changeKeyword(string s) {
 void book::addAmount(int x) {
     if(amount+x<0)error("sold out!");
     bookList_ISBN.Delete(ISBN,*this);
-    bookList_book_name.Delete(book_name,*this);
-    bookList_author.Delete(author,*this);
+    if(strlen(book_name)!=0)bookList_book_name.Delete(book_name,*this);
+    if(strlen(author)!=0)bookList_author.Delete(author, *this);
     for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],*this);
     amount+=x;
     for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],*this);
@@ -192,8 +192,8 @@ void book::addAmount(int x) {
 
 void book::changePrice(string s) {
     bookList_ISBN.Delete(ISBN,*this);
-    bookList_book_name.Delete(book_name,*this);
-    bookList_author.Delete(author,*this);
+    if(strlen(book_name)!=0)bookList_book_name.Delete(book_name,*this);
+    if(strlen(author)!=0)bookList_author.Delete(author, *this);
     for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],*this);
     strcpy(price,s.c_str());
     for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],*this);

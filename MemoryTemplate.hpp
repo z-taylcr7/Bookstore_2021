@@ -44,7 +44,6 @@ public:
         file.seekp(offset);
         file.read(reinterpret_cast<char *>(&t), sizeof(T));
         file.close();
-
     }
     const int&Offset ()const{return offset;};
     bool operator<(const Node &rhs) const {
@@ -220,7 +219,7 @@ public:
     }
     void find(const string& key){
         data_file=data_name;
-        T queue[10000];int cnt=0;
+        T queue[1000];int cnt=0;
         Node<T> node(key,0);
         bool found=false;
         blockNode it;int pos=headIndex,tmp=headIndex;
@@ -257,7 +256,7 @@ public:
         for(it;pos!=-1;pos=it.nextBlock,list.read(it,pos)){
             for(int i=0;i<it.numElements;i++){
                 T t;it.elements[i].Value(t);
-                cout<<t;
+                cout<<t<<'\n';
             }
         }
     }

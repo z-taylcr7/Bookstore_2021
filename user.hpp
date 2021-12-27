@@ -314,7 +314,6 @@ void user::modify(TokenScanner &s) {
         }
         if(i==len)error("token required.");
         if(type=="ISBN"){
-            token=token.substr(1,token.length()-2);
             string Isbn=token;
             book book1(Isbn);
             if(bookList_ISBN.findOne(Isbn,book1))error("ISBN should be unique.");

@@ -94,7 +94,10 @@ float toFloat(const string& s){
         if(s[i]!='.')num=10*num+s[i]-'0';
         else break;
     }
-    if(i!=l){
+    if(i==l-2){
+        num+=0.1*(s[i+1]-'0');
+    }
+    if(i==l-3){
         num+=0.1*(s[i+1]-'0')+0.01*(s[i+2]-'0');
     }
     num=num+0.00;
