@@ -20,9 +20,9 @@ using namespace std;
 
 class user{
 private:
-char id[30]={' '};
-char password[30]={' '};
-char name[30]={' '} ;
+char id[31]={' '};
+char password[31]={' '};
+char name[31]={' '} ;
 char pr='0';
 public:
     user();
@@ -162,7 +162,8 @@ void user::logout(TokenScanner& s) {
         if(log_stack.empty())log_stack.push_back(user(0));
         currentUser=log_stack.back();
         book book1;
-        currentBook=book1;selected=false;
+        currentBook=book1;
+        selected= false;
 }
 void user::register_account(TokenScanner& s){
     string _id=s.nextToken();
@@ -281,7 +282,7 @@ void user::show(TokenScanner &s) {
     if(i==len)error("token required.");
     if(type[0]!='-')error("formula error'-'");
     type=type.substr(1);
-    if(type=="ISBN")bookList_ISBN.find(token);
+    if(type=="ISBN"){bookList_ISBN.find(token);return;}
     if(token[0]!='"'||token[token.length()-1]!='"')error("formula error");
     token=token.substr(1,token.length()-2);
     if(type=="name")bookList_book_name.find(token);
@@ -305,7 +306,7 @@ void user::select(TokenScanner &s) {
 }
 
 void user::modify(TokenScanner &s) {
-    if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you want to modify.");
+    if(pr=='0'||pr=='1'){error("you don't have the priority. Sign in first if you want to modify.");return;}
     if(!selected)error("please select a book first!");
     while(s.hasMoreToken()){
         string t=s.nextToken().substr(1);
