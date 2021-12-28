@@ -54,14 +54,19 @@ void TokenScanner::divide(const string &s){
         if(s[i]==' '){
             Node*n=new Node;
             n->token=s.substr(j,i-j);j=i+1;
-            while(s[j]==' '&&j!=len-1)j++;
+            while(s[j]==' '&&j!=len-1)j++;i=j;
             p->next=n;
             p=p->next;
         }
     }
-    Node*l=new Node;
-    l->token=s.substr(j);
-    p->next=l;l->next= nullptr;
+    if(s[len-1]!=' ') {
+        Node*l=new Node;
+        l->token = s.substr(j);
+        p->next = l;
+        l->next = nullptr;
+    }else{
+        p->next= nullptr;
+    }
     cur=head->next;
 }
 TokenScanner::~TokenScanner() {
