@@ -30,7 +30,7 @@ private:
     char ISBN[20] ;
     char book_name[60];
     char author[60];
-char keyword[20][20];
+char keyword[10][60];
 int amount;
 int keys;
 char price[13] ;
