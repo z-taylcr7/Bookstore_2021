@@ -90,7 +90,15 @@ BlockList<book> bookList_book_name;
 
 book currentBook;
 bool selected=false;
-user::user()=default;
+user::user(){
+    pr='0';
+    string _id;
+    string _password;
+    string _name;
+    strcpy(id,_id.c_str());
+    strcpy(password,_password.c_str());
+    strcpy(name,_name.c_str());
+};
 user::user(int x){
     pr='0';
     string _id;

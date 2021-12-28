@@ -8,9 +8,10 @@
 #include <iomanip>
 
 class book{
-char ISBN[20] ;
-char book_name[60];
+
 public:
+    book();
+
     void changeIsbn(string s) ;
 
     void changeBookName(string s) ;
@@ -26,6 +27,8 @@ public:
     float getPrice();
 
 private:
+    char ISBN[20] ;
+    char book_name[60];
     char author[60];
 char keyword[20][20];
 int amount;
@@ -33,7 +36,6 @@ int keys;
 char price[13] ;
 public:
 //构造，拷贝构造，=，<,==,!=
-book();
 
 book(const book &ob);
 
@@ -57,7 +59,12 @@ extern BlockList<book> bookList_book_name;
 extern BlockList<book> bookList_ISBN;
 extern BlockList<book> bookList_author;
 book::book() {
-
+    amount=0;keys=0;
+    memset(&ISBN,0,sizeof(ISBN));
+    memset(&price,0,sizeof(price));
+    memset(&book_name,0,sizeof(book_name));
+    memset(&author,0,sizeof(author));
+    memset(&keyword,0,sizeof(keyword));
 }
 void book::toKeyword(const string &t) {
     int l=t.length();int j=0;int cnt=0;
@@ -71,6 +78,11 @@ void book::toKeyword(const string &t) {
 }
 
 book::book(const book &ob) {
+    memset(&ISBN,0,sizeof(ISBN));
+    memset(&price,0,sizeof(price));
+    memset(&book_name,0,sizeof(book_name));
+    memset(&author,0,sizeof(author));
+    memset(&keyword,0,sizeof(keyword));
     strcpy(ISBN,ob.ISBN);
     strcpy(author,ob.author);
     strcpy(book_name,ob.book_name);
@@ -82,17 +94,28 @@ book::book(const book &ob) {
     }
 }
 
-book::book(const string &i, const string &n="", const string &a="", const string &k="", int q=0, const string &p="0") {
+book::book(const string &i, const string &n="", const string &a="", const string &k="", int q=0, const string &p="0.00") {
+    memset(&ISBN,0,sizeof(ISBN));
+    memset(&price,0,sizeof(price));
+    memset(&book_name,0,sizeof(book_name));
+    memset(&author,0,sizeof(author));
+    memset(&keyword,0,sizeof(keyword));
     strcpy(ISBN,i.c_str());
     strcpy(book_name,n.c_str());
     strcpy(author,a.c_str());
     strcpy(price,p.c_str());
-    toKeyword(k);
+    if(!k.empty())toKeyword(k);
+    else keys=0;
     amount=q;
 }
 
 book &book::operator=(const book &ob) {
     if(this==&ob)return *this;
+    memset(&ISBN,0,sizeof(ISBN));
+    memset(&price,0,sizeof(price));
+    memset(&book_name,0,sizeof(book_name));
+    memset(&author,0,sizeof(author));
+    memset(&keyword,0,sizeof(keyword));
     strcpy(ISBN,ob.ISBN);
     strcpy(author,ob.author);
     strcpy(book_name,ob.book_name);

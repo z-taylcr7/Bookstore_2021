@@ -29,12 +29,16 @@ string map_file;
 template<class T>
 class Node{
 private:
-    char key[65]="";
-    int offset;
+    char key[65];
+    int offset=0;
 public:
-    Node()=default;
+    Node() {
+        memset(&key,0,sizeof(key));
+        offset=0;
+    }
     Node(const string &key_, const int &offset_)
             :  offset(offset_) {
+        memset(&key,0,sizeof(key));
         strcpy(key, key_.c_str());
     }
     string Key() const { return key; }
@@ -119,7 +123,8 @@ public:
         data_file=data_name;
         int num=data.write(value);
         Node<T> node(key,num);
-        blockNode it;int pos=headIndex,tmp=headIndex;
+        blockNode it;
+        int pos=headIndex,tmp=headIndex;
         list.read(it,headIndex);
         for(it;pos!=-1;tmp=pos,pos=it.nextBlock,list.read(it,pos)){
             if(it.elements[0]<node)continue;
