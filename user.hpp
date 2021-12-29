@@ -363,6 +363,7 @@ void user::modify(TokenScanner &s) {
             p=true;
             mod.changePrice(token);
         }
+        if(type!="ISBN"&&type!="keyword"&&type!="author"&&type!="price"&&type!="name")error("token error");
     }
     currentBook.setModification(mod);
 }

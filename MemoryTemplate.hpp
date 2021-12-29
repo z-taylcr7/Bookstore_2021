@@ -21,7 +21,7 @@ using std::ofstream;
 //BOOKs
 
 
-const int maxElements=1830;
+const int maxElements=30;
 
 #include "memory.hpp"
 string data_file;
