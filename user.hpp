@@ -87,7 +87,7 @@ BlockList<book> bookList_ISBN;
 BlockList<book> bookList_keyword;
 BlockList<book> bookList_author;
 BlockList<book> bookList_book_name;
-
+int currentOffset;
 book currentBook;
 bool selected=false;
 user::user(){
@@ -142,23 +142,18 @@ void user::allocate(TokenScanner& s){
 
 void user::su(TokenScanner& s) const{
     user user1;
-    if(!s.hasMoreToken())error("token needed");
     if(userList.findOne(s.nextToken(),user1)) {
         if (pr <= user1.pr) {
             if(!s.hasMoreToken())error("password required!");
             string st = s.nextToken();
             if(s.hasMoreToken())error("token too much!");
-            char *tmp = new char[30];
-            strcpy(tmp, st.c_str());
-            if (strcmp(tmp, user1.password)!=0) {
+            if (strcmp(st.c_str(), user1.password)!=0) {
                 error("wrong password!");//todo error：password error
             }
-            delete[]tmp;
         }
         log_stack.push_back(user1);
         currentUser = user1;
-        book book1;
-        currentBook=book1;selected=false;
+        selected=false;
     }else{
         error("account not found!");//todo:cant find error
     }
@@ -169,8 +164,6 @@ void user::logout(TokenScanner& s) {
         log_stack.pop_back();
         if(log_stack.empty())log_stack.push_back(user(0));
         currentUser=log_stack.back();
-        book book1;
-        currentBook=book1;
         selected= false;
 }
 void user::register_account(TokenScanner& s){
@@ -190,12 +183,13 @@ void user::register_account(TokenScanner& s){
 }
 void user::passwd(TokenScanner& s) const{
     if(pr=='0')error("please create an account!");
+    //is password?
     if(pr=='7'){
         user user1;
         if(userList.findOne(s.nextToken(),user1)){
-            userList.Delete(user1.id,user1);
+            user tmp=user1;
             strcpy(user1.password,s.nextToken().c_str());
-            userList.insert(user1.id,user1);
+            userList.update(user1.id,tmp,user1);
          }else {
             error("account not found!");//todo:cannot find user error
         }
@@ -205,9 +199,9 @@ void user::passwd(TokenScanner& s) const{
             if(strcmp(s.nextToken().c_str(),user1.password)!=0){
                error("wrong password!"); //todo:password error
             }
-            userList.Delete(user1.id,user1);
+            user tmp=user1;
             strcpy(user1.password,s.nextToken().c_str());
-            userList.insert(user1.id,user1);
+            userList.update(user1.id,tmp,user1);
         }else {
             error("account not found!");//todo:cannot find user error
         }
@@ -215,18 +209,13 @@ void user::passwd(TokenScanner& s) const{
 }
 void user::useradd(TokenScanner& s) const {
     if(pr=='0'||pr=='1')error("you can't even do this!");
-    if(!s.hasMoreToken())error("token needed");
     string _id=s.nextToken();
-    if(!s.hasMoreToken())error("token needed");
     string _pw=s.nextToken();
-    if(!s.hasMoreToken())error("token needed");
     string _pr=s.nextToken();
-    if(!s.hasMoreToken())error("token needed");
     string _name=s.nextToken();
     if(s.hasMoreToken())error("token too much!");
     user user1(_id,_pw,_name,_pr[0]);
     if(!isUserName(_name)||!(isID(_id))||!isPassword(_pw)||!isPriority(_pr)){
-        cout<<"input error"<<'\n';
         error("input error!");//todo:input error
     }else {
         if(_pr[0]>pr||_pr[0]==pr)error("this operation is beyond your priority.");//todo::priority error;
@@ -238,7 +227,6 @@ void user::useradd(TokenScanner& s) const {
 }
 void user::Delete(TokenScanner& s) {
     if(pr!='7')error("only superUser can delete an account.");
-    if(!s.hasMoreToken())error("token needed");
     string _id=s.nextToken();
     if(s.hasMoreToken())error("token too much!");
     user tmp;

@@ -32,28 +32,28 @@ private:
     char ISBN[22] ;
     char book_name[62];
     char author[62];
-char keyword[20][60];
-int amount;
-int keys;
-char price[14] ;
+    char keyword[20][60];
+    int amount;
+    int keys;
+    char price[14] ;
 public:
 //构造，拷贝构造，=，<,==,!=
 
-book(const book &ob);
+    book(const book &ob);
 
-book(const string&i,const string&n,const string&a,const string&k,int q,const string&p);
+    book(const string&i,const string&n,const string&a,const string&k,int q,const string&p);
 
-void toKeyword(const string&t);
+    void toKeyword(const string&t);
 
-book &operator=(const book& obj);
+    book &operator=(const book& obj);
 
-bool operator==(const book& rhs);
+    bool operator==(const book& rhs);
 
-bool operator!=(const book& rhs);
+    bool operator!=(const book& rhs);
 
-bool operator<(const book& rhs);
+    bool operator<(const book& rhs);
 
-friend ostream& operator<<(ostream&os,const book& rhs);
+    friend ostream& operator<<(ostream&os,const book& rhs);
 
 };
 extern BlockList<book> bookList_keyword;
@@ -73,7 +73,7 @@ void book::toKeyword(const string &t) {
     if(l>60)error("too long");
     for(int i=0;i<l;i++){
         if(t[i]=='|'){
-           strcpy(keyword[cnt++],t.substr(j,i-j).c_str());j=i+1;
+            strcpy(keyword[cnt++],t.substr(j,i-j).c_str());j=i+1;
         }
     }
     strcpy(keyword[cnt++],t.substr(j).c_str());
@@ -132,7 +132,7 @@ book &book::operator=(const book &ob) {
 }
 
 bool book::operator==(const book &rhs) {
-return (strcmp(ISBN,rhs.ISBN)==0);
+    return (strcmp(ISBN,rhs.ISBN)==0);
 }
 
 bool book::operator!=(const book &rhs) {
@@ -143,12 +143,12 @@ bool book::operator<(const book &rhs) {
     return (strcmp(ISBN,rhs.ISBN)<0);
 }
 ostream &operator<<(ostream &os, const book &rhs) {
-   os<<rhs.ISBN<<'\t'<<rhs.book_name<<'\t'<<rhs.author<<'\t';
-   for(int i=0;i<rhs.keys-1;i++){
-       os<<rhs.keyword[i]<<'|';
-   }os<<rhs.keyword[rhs.keys-1]<<'\t';
-   os<<fixed<<setprecision(2)<<toFloat(rhs.price)<<'\t'<<rhs.amount;
-   return os;
+    os<<rhs.ISBN<<'\t'<<rhs.book_name<<'\t'<<rhs.author<<'\t';
+    for(int i=0;i<rhs.keys-1;i++){
+        os<<rhs.keyword[i]<<'|';
+    }os<<rhs.keyword[rhs.keys-1]<<'\t';
+    os<<fixed<<setprecision(2)<<toFloat(rhs.price)<<'\t'<<rhs.amount;
+    return os;
 }
 
 float book::getPrice(){

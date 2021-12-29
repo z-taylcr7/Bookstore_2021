@@ -21,7 +21,7 @@ using std::ofstream;
 //BOOKs
 
 
-const int maxElements=26;
+const int maxElements=13;
 
 #include "memory.hpp"
 string data_file;
@@ -162,10 +162,37 @@ public:
         crack.nextBlock=it.nextBlock;
         it.nextBlock=list.write(crack);
     }
-
-    void update(const string& key, T &value) {
+    int indexMax(){
+        return data.getIndexMax();
+    }
+    int getOffset(const string&key,T&value){
         data_file=data_name;
-        int ofs = data.write(value);
+        Node<T> node(key,0);
+        blockNode it;int pos=headIndex,tmp=headIndex;
+        list.read(it,headIndex);
+        for(it;pos!=-1;tmp=pos,pos=it.nextBlock,list.read(it,pos)){
+            if(strcmp(it.elements[0].Key().c_str(),key.c_str())<0)continue;
+            else{break;}
+        }
+        pos=tmp;
+        list.read(it,pos);
+        while(true) {
+            int i=std::lower_bound(it.elements,it.elements+it.numElements,node)-it.elements;
+            for (; i < it.numElements; i++) {
+                if (strcmp(key.c_str(),it.elements[i].Key().c_str())==0) {
+                    return it.elements[i].Offset();
+                }
+            }
+            if(it.nextBlock==-1)break;
+            pos=it.nextBlock;
+            list.read(it,pos);
+            if(strcmp(it.elements[0].Key().c_str(),key.c_str())>0)break;
+        }
+        return 0;
+    }
+    void update(const string& key, T& old,T &value) {
+        data_file=data_name;
+        int ofs = data.write(old);
         Node<T> node(key, ofs);
         blockNode it;
         int pos = headIndex, tmp = headIndex;
@@ -178,15 +205,17 @@ public:
         list.read(it, pos);
         while (true) {
             int i = std::lower_bound(it.elements, it.elements + it.numElements, node) - it.elements;
-            if (it.elements[i] == node)data.update( value,it.elements[i].Offset());
+            if (it.elements[i] == node){data.update( value,it.elements[i].Offset());return;}
             list.update(it, pos);
             if (it.nextBlock == -1)break;
             pos = it.nextBlock;
             list.read(it, pos);
             if (node < it.elements[0])break;
         }
+        data.Delete(ofs);
     }
-    void Delete(const string& key, T &value){
+    bool Delete(const string& key, T &value){
+        bool deleted=false;
         data_file=data_name;
         int ofs=data.write(value);
         Node<T> node(key,ofs);
@@ -201,6 +230,7 @@ public:
         while(true) {
             int i=std::lower_bound(it.elements,it.elements+it.numElements,node)-it.elements;
             if (it.elements[i]==node) {
+                deleted=true;
                 it.numElements--;
                 while(i<it.numElements){
                     swap(it,i,i+1);
@@ -215,6 +245,8 @@ public:
             if(node<it.elements[0])break;
         }
         data.Delete(ofs);
+        return deleted;
+
     }
     void merge(blockNode &lhs){
         data_file=data_name;
@@ -269,10 +301,6 @@ public:
                 cout<<t<<'\n';
             }
         }
-    }
-    void update(T t,T n){
-        data_file=data_name;
-        data.updateData(t,n);
     }
     bool findOne(const string& key,T& ans){
         data_file=data_name;
