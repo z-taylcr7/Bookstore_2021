@@ -92,10 +92,14 @@ class BlockList{
 private:
     string data_name;
     string map_name;
-    struct blockNode{
+    class blockNode{
         Node<T> elements[maxElements+1];//key-value's pos in memory
         int numElements=0;
         int nextBlock=-1;
+    public:
+        blockNode(){
+            memset(&elements,0,sizeof (elements));
+        }
     };
     int headIndex=5;
     Memo<blockNode> list;

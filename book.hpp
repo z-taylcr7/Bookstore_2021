@@ -29,13 +29,13 @@ public:
     float getPrice();
 
 private:
-    char ISBN[21] ;
-    char book_name[61];
-    char author[60];
-char keyword[10][60];
+    char ISBN[22] ;
+    char book_name[62];
+    char author[62];
+char keyword[20][60];
 int amount;
 int keys;
-char price[13] ;
+char price[14] ;
 public:
 //构造，拷贝构造，=，<,==,!=
 
@@ -70,6 +70,7 @@ book::book() {
 }
 void book::toKeyword(const string &t) {
     int l=t.length();int j=0;int cnt=0;
+    if(l>60)error("too long");
     for(int i=0;i<l;i++){
         if(t[i]=='|'){
            strcpy(keyword[cnt++],t.substr(j,i-j).c_str());j=i+1;
@@ -185,8 +186,8 @@ void book::changePrice(string s) {
 void book::addAmount(int x) {
     if(amount+x<0)error("sold out!");
     bookList_ISBN.Delete(ISBN,*this);
-    if(strlen(book_name)!=0)bookList_book_name.Delete(book_name,*this);
-    if(strlen(author)!=0)bookList_author.Delete(author, *this);
+    bookList_book_name.Delete(book_name,*this);
+    bookList_author.Delete(author, *this);
     for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],*this);
     amount+=x;
     for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],*this);

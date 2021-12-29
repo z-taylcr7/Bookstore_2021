@@ -20,9 +20,9 @@ using namespace std;
 
 class user{
 private:
-char id[31]={' '};
-char password[31]={' '};
-char name[31]={' '} ;
+char id[32]={' '};
+char password[32]={' '};
+char name[32]={' '} ;
 char pr='0';
 public:
     user();
@@ -305,6 +305,7 @@ void user::show(TokenScanner &s) {
 void user::select(TokenScanner &s) {
     if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you wanna select.");
     string Isbn=s.nextToken();
+    if(Isbn.length()>30)error("too long isbn");
     book book1(Isbn);
     if(!bookList_ISBN.findOne(Isbn,book1)){
         bookList_ISBN.insert(Isbn,book1);
@@ -334,6 +335,7 @@ void user::modify(TokenScanner &s) {
         if(i==len)error("token required.");
         if(type=="ISBN"){
             if(isbn)error("0");
+            if(!isISBN(token))error("wrong isbn");
             string Isbn=token;
             book book1(Isbn);
             if(bookList_ISBN.findOne(Isbn,book1))error("ISBN should be unique.");
@@ -343,23 +345,27 @@ void user::modify(TokenScanner &s) {
         if(type=="name") {
             if(n)error("name repeat");
             token=token.substr(1,token.length()-2);
+            if(!isBookName(token))error("wrong name");
             n=true;
             mod.changeBookName(token);
         }
         if(type=="author") {
-            if(a)error("author repeat");
             token=token.substr(1,token.length()-2);
+            if(a)error("author repeat");
+            if(!isBookName(token))error("wrong author");
             a=true;
             mod.changeAuthor(token);
         }
         if(type=="keyword"){
             if(k)error("no more keyword");
             token=token.substr(1,token.length()-2);
+            if(!isBookName(token))error("wrong keyword");
             k=true;
             mod.changeKeyword(token);
         }
         if(type=="price"){
             if(p)error("no price anymore.");
+            if(isPrice(token))error("wrong price");
             p=true;
             mod.changePrice(token);
         }
