@@ -93,10 +93,10 @@ private:
     string data_name;
     string map_name;
     class blockNode{
+    public:
         Node<T> elements[maxElements+1];//key-value's pos in memory
         int numElements=0;
         int nextBlock=-1;
-    public:
         blockNode(){
             memset(&elements,0,sizeof (elements));
         }

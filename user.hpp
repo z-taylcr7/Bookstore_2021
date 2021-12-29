@@ -365,7 +365,7 @@ void user::modify(TokenScanner &s) {
         }
         if(type=="price"){
             if(p)error("no price anymore.");
-            if(isPrice(token))error("wrong price");
+            if(!isPrice(token))error("wrong price");
             p=true;
             mod.changePrice(token);
         }

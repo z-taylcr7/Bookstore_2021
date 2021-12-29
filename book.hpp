@@ -29,13 +29,13 @@ public:
     float getPrice();
 
 private:
-    char ISBN[22] ;
-    char book_name[62];
-    char author[62];
+    char ISBN[21] ;
+    char book_name[61];
+    char author[60];
 char keyword[20][60];
 int amount;
 int keys;
-char price[14] ;
+char price[13] ;
 public:
 //构造，拷贝构造，=，<,==,!=
 

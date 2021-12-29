@@ -48,7 +48,7 @@ int main()
         }
     }
     end=clock();
-    cout<<(float)((end-start)*1000/CLOCKS_PER_SEC);
+    //cout<<(float)((end-start)*1000/CLOCKS_PER_SEC);
 }
 
 
