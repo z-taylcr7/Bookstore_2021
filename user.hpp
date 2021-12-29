@@ -426,7 +426,7 @@ void user::showFinance(const string& times) {
             sum += tmp;
             d -= sizeof(trade);
         }
-        cout<<sum<<endl;
+        cout<<sum<<'\n';
         return;
     }
     int t=toNumber(times);

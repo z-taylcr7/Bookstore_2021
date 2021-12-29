@@ -4,6 +4,11 @@
 
 #ifndef BOOKSTORAGE_CBP_MEMORY_HPP
 #define BOOKSTORAGE_CBP_MEMORY_HPP
+using namespace std;
+using std::string;
+using std::fstream;
+using std::ifstream;
+using std::ofstream;
 template<class T>
 class Memo{
 private:
