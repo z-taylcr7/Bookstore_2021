@@ -316,6 +316,8 @@ void user::select(TokenScanner &s) {
 void user::modify(TokenScanner &s) {
     if(pr=='0'||pr=='1'){error("you don't have the priority. Sign in first if you want to modify.");return;}
     if(!selected)error("please select a book first!");
+    book mod=currentBook;
+    bool a= false,n=false,isbn=false,k=false,p=false;
     while(s.hasMoreToken()){
         string t=s.nextToken().substr(1);
         string type;
@@ -331,27 +333,38 @@ void user::modify(TokenScanner &s) {
         }
         if(i==len)error("token required.");
         if(type=="ISBN"){
+            if(isbn)error("0");
             string Isbn=token;
             book book1(Isbn);
             if(bookList_ISBN.findOne(Isbn,book1))error("ISBN should be unique.");
-            currentBook.changeIsbn(token);
+            isbn=true;
+            mod.changeIsbn(token);
         }
         if(type=="name") {
+            if(n)error("name repeat");
             token=token.substr(1,token.length()-2);
-            currentBook.changeBookName(token);
+            n=true;
+            mod.changeBookName(token);
         }
         if(type=="author") {
+            if(a)error("author repeat");
             token=token.substr(1,token.length()-2);
-            currentBook.changeAuthor(token);
+            a=true;
+            mod.changeAuthor(token);
         }
         if(type=="keyword"){
+            if(k)error("no more keyword");
             token=token.substr(1,token.length()-2);
-            currentBook.changeKeyword(token);
+            k=true;
+            mod.changeKeyword(token);
         }
         if(type=="price"){
-            currentBook.changePrice(token);
+            if(p)error("no price anymore.");
+            p=true;
+            mod.changePrice(token);
         }
     }
+    currentBook.setModification(mod);
 }
 
 void user::buy(TokenScanner &s) {

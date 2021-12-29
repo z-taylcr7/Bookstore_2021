@@ -21,7 +21,7 @@ using std::ofstream;
 //BOOKs
 
 
-const int maxElements=30;
+const int maxElements=1830;
 
 #include "memory.hpp"
 string data_file;
@@ -43,6 +43,7 @@ public:
     }
     string Key() const { return key; }
     void Value( T &t) const {
+        if(offset==0)return;
         fstream file;
         file.open(data_file);
         file.seekp(offset);
