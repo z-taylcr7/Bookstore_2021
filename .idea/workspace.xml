@@ -92,7 +92,7 @@
       <workItem from="1640617193257" duration="8092000" />
       <workItem from="1640665092939" duration="6566000" />
       <workItem from="1640717414226" duration="20501000" />
-      <workItem from="1640833284281" duration="15562000" />
+      <workItem from="1640833284281" duration="17568000" />
     </task>
     <servers />
   </component>
@@ -114,7 +114,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/user.hpp</url>
-          <line>402</line>
+          <line>411</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -127,6 +127,31 @@
           <line>83</line>
           <option name="timeStamp" value="114" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/user.hpp</url>
+          <line>258</line>
+          <option name="timeStamp" value="115" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/MemoryTemplate.hpp</url>
+          <line>266</line>
+          <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/MemoryTemplate.hpp</url>
+          <line>46</line>
+          <option name="timeStamp" value="117" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/MemoryTemplate.hpp</url>
+          <line>292</line>
+          <option name="timeStamp" value="119" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/book.hpp</url>
+          <line>140</line>
+          <option name="timeStamp" value="120" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
@@ -136,6 +161,7 @@
         <watch expression="log_stack" language="ObjectiveC" />
         <watch expression="this-&gt;book_name" language="ObjectiveC" />
         <watch expression="currentBook" language="ObjectiveC" />
+        <watch expression="data_file" language="ObjectiveC" />
       </configuration>
     </watches-manager>
   </component>

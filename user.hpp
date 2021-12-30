@@ -201,8 +201,10 @@ void user::passwd(TokenScanner& s) const{
             if(strcmp(s.nextToken().c_str(),user1.password)!=0){
                error("wrong password!"); //todo:password error
             }
+            string pw=s.nextToken();
+            if(!isPassword(pw))error("invalid password");
             userList.Delete(user1.id,user1);
-            strcpy(user1.password,s.nextToken().c_str());
+            strcpy(user1.password,pw.c_str());
             userList.insert(user1.id,user1);
         }else {
             error("account not found!");//todo:cannot find user error
@@ -217,16 +219,11 @@ void user::useradd(TokenScanner& s) const {
     string _name=s.nextToken();
     if(s.hasMoreToken())error("token too much!");
     user user1(_id,_pw,_name,_pr);
-    if(!isUserName(_name)||!(isID(_id))||!isPassword(_pw)||!isPriority(_pr)){
-        error("input error!");//todo:input error
-    }else {
-        if(_pr[0]>pr||_pr[0]==pr)error("this operation is beyond your priority.");//todo::priority error;
-        if(userList.findOne(_id,user1)){
-            error("account has been registered!");//todo:re register ;
-        }
-        userList.insert(_id,user1);
-    }
+    if(_pr[0]>pr||_pr[0]==pr)error("this operation is beyond your priority.");//todo::priority error;
+    if(userList.findOne(_id,user1))error("account has been registered!");//todo:re register ;
+    userList.insert(_id,user1);
 }
+
 void user::Delete(TokenScanner& s) {
     if(pr!='7')error("only superUser can delete an account.");
     string _id=s.nextToken();
@@ -280,13 +277,23 @@ void user::show(TokenScanner &s) {
     if(i==len)error("token required.");
     if(type[0]!='-')error("formula error'-'");
     type=type.substr(1);
-    if(type=="ISBN"){bookList_ISBN.find(token);return;}
+    if(type=="ISBN"){
+        if(!isISBN(token))error("wrong ISBN");
+        bookList_ISBN.find(token);return;
+    }
     if(token[0]!='"'||token[token.length()-1]!='"')error("formula error");
     token=token.substr(1,token.length()-2);
-    if(type=="name")bookList_book_name.find(token);
-    if(type=="author")bookList_author.find(token);
+    if(type=="name"){
+        if(!isBookName(token))error("wrong book name");
+        bookList_book_name.find(token);
+    }
+    if(type=="author"){
+        if(!isBookName(token))error("wrong author");
+        bookList_author.find(token);
+    }
     if(type=="keyword"){
         int len=token.length();int i=0;
+        if(len>60)error("wrong keyword");
         while(i<len){if(t[i]=='|')error("only one keyword is required.");i++;}
         bookList_keyword.find(token);
     }
@@ -297,7 +304,7 @@ void user::select(TokenScanner &s) {
         error("you don't have the priority. Sign in first if you wanna select.");
     }
     string Isbn=s.nextToken();
-    if(Isbn.length()>30)error("too long isbn");
+    if(!isISBN(Isbn))error("too long for isbn");
     book book1(Isbn);
     if(!bookList_ISBN.findOne(Isbn,book1)){
        bookList_ISBN.insert(Isbn,book1);
@@ -306,7 +313,7 @@ void user::select(TokenScanner &s) {
     selected=true;
 }
 
-void user::modify(TokenScanner &s) {
+void user::modify(TokenScanner &s){
     if(pr=='0'||pr=='1'){error("you don't have the priority. Sign in first if you want to modify.");return;}
     if(!selected)error("please select a book first!");
     book mod=currentBook;
@@ -361,15 +368,17 @@ void user::modify(TokenScanner &s) {
             p=true;
             mod.changePrice(token);
         }
-        if(type!="ISBN"&&type!="keyword"&&type!="author"&&type!="price"&&type!="name")error("token error");
+        if(type!="ISBN"&&type!="keyword"&&type!="author"&&type!="price"&&type!="name")error("type error");
     }
     currentBook.setModification(mod);
 }
 
 void user::buy(TokenScanner &s) {
+    string key=s.nextToken();
+    if(!isISBN(key))error("invalid isbn");
     book book1;
-    if(bookList_ISBN.findOne(s.nextToken(),book1)){
-        int quantity= toNumber(s.nextToken());
+    if(bookList_ISBN.findOne(key,book1)){
+        long long int quantity= toNumber(s.nextToken());
         book1.addAmount(-quantity);
         float price=quantity*book1.getPrice();
         cout<<fixed<<setprecision(2)<<price<<'\n';

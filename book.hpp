@@ -141,7 +141,8 @@ ostream &operator<<(ostream &os, const book &rhs) {
     os<<rhs.ISBN<<'\t'<<rhs.book_name<<'\t'<<rhs.author<<'\t';
     for(int i=0;i<rhs.keys-1;i++){
         os<<rhs.keyword[i]<<'|';
-    }os<<rhs.keyword[rhs.keys-1]<<'\t';
+    }
+    if(rhs.keys>0)os<<rhs.keyword[rhs.keys-1]<<'\t';
     os<<fixed<<setprecision(2)<<toFloat(rhs.price)<<'\t'<<rhs.amount;
     return os;
 }
