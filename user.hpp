@@ -20,10 +20,10 @@ using namespace std;
 
 class user{
 private:
-char id[32]={' '};
-char password[32]={' '};
-char name[32]={' '} ;
-char pr='0';
+    char id[32]={' '};
+    char password[32]={' '};
+    char name[32]={' '} ;
+    char pr='0';
 public:
     user();
 
@@ -79,7 +79,7 @@ public:
 
 //********USER-Memory***********//
 BlockList<user> userList;
-vector<user>log_stack;
+vector<pair<user,book>>log_stack;
 static user currentUser;
 Memo<trade> finance;
 //***************Book-Memory****************//
@@ -151,8 +151,14 @@ void user::su(TokenScanner& s) const{
                 error("wrong password!");//todo error：password error
             }
         }
-        log_stack.push_back(user1);
+        if(!log_stack.empty()){
+            log_stack.pop_back();
+            log_stack.push_back(make_pair(currentUser,currentBook));
+        }
+        book book1;
+        log_stack.push_back(make_pair(user1,book1));
         currentUser = user1;
+        currentBook=book1;
         selected=false;
     }else{
         error("account not found!");//todo:cant find error
@@ -161,10 +167,12 @@ void user::su(TokenScanner& s) const{
 void user::logout(TokenScanner& s) {
     if(s.hasMoreToken())error("token too much!");
     if(pr=='0')error("no account!");
-        log_stack.pop_back();
-        if(log_stack.empty())log_stack.push_back(user(0));
-        currentUser=log_stack.back();
-        selected= false;
+    log_stack.pop_back();
+    book book1;
+    if(log_stack.empty())log_stack.push_back(make_pair(user(0),book1));
+    currentUser=log_stack.back().first;
+    currentBook=log_stack.back().second;
+    selected=(currentBook!=book1);
 }
 void user::register_account(TokenScanner& s){
     string _id=s.nextToken();
@@ -195,7 +203,7 @@ void user::passwd(TokenScanner& s) const{
         user user1;
         if(userList.findOne(s.nextToken(),user1)){
             if(strcmp(s.nextToken().c_str(),user1.password)!=0){
-               error("wrong password!"); //todo:password error
+                error("wrong password!"); //todo:password error
             }
             string pw=s.nextToken();
             if(!isPassword(pw))error("invalid password");
@@ -206,6 +214,8 @@ void user::passwd(TokenScanner& s) const{
             error("account not found!");//todo:cannot find user error
         }
     }
+    log_stack.pop_back();
+    log_stack.push_back(make_pair(currentUser,currentBook));
 }
 void user::useradd(TokenScanner& s) const {
     if(pr=='0'||pr=='1')error("you can't even do this!");
@@ -230,7 +240,7 @@ void user::Delete(TokenScanner& s) {
         error("account not found!");//todo:cannot find
     }
     for(auto it:log_stack){
-        if(strcmp(it.id,_id.c_str())==0){
+        if(strcmp(it.first.id,_id.c_str())==0){
             error("the account has logged in.");//todo:logged in
         }
     }
@@ -304,9 +314,11 @@ void user::select(TokenScanner &s) {
     if(!isISBN(Isbn))error("too long for isbn");
     book book1(Isbn);
     if(!bookList_ISBN.findOne(Isbn,book1)){
-       bookList_ISBN.insert(Isbn,book1);
+        bookList_ISBN.insert(Isbn,book1);
     }
     currentBook=book1;
+    log_stack.pop_back();
+    log_stack.push_back(make_pair(currentUser,currentBook));
     selected=true;
 }
 
@@ -373,6 +385,9 @@ void user::modify(TokenScanner &s){
         if(type!="ISBN"&&type!="keyword"&&type!="author"&&type!="price"&&type!="name")error("type error");
     }
     currentBook.setModification(mod);
+    currentBook=mod;
+    log_stack.pop_back();
+    log_stack.push_back(make_pair(currentUser,currentBook));
 }
 
 void user::buy(TokenScanner &s) {
@@ -387,6 +402,8 @@ void user::buy(TokenScanner &s) {
         //todo:log data.
         trade log(price,0);
         finance.write(log);
+        log_stack.pop_back();
+        log_stack.push_back(make_pair(currentUser,currentBook));
     }else{
         error("book not found!");
     }
@@ -395,12 +412,14 @@ void user::buy(TokenScanner &s) {
 void user::import(TokenScanner &s) const {
     if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you want to import.");
     if(!selected)error("select a book first.");
-        int quantity= toNumber(s.nextToken());
-        currentBook.addAmount(quantity);
-        float price= toFloat(s.nextToken());
-        //todo:log data.
-        trade log(0,price);
-        finance.write(log);
+    int quantity= toNumber(s.nextToken());
+    currentBook.addAmount(quantity);
+    float price= toFloat(s.nextToken());
+    //todo:log data.
+    trade log(0,price);
+    finance.write(log);
+    log_stack.pop_back();
+    log_stack.push_back(make_pair(currentUser,currentBook));
 }
 
 ostream &operator<<(ostream &os, const user &user) {
