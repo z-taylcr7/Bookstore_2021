@@ -58,7 +58,7 @@ public:
     }
     void update(T &t, const int index) {
         file.open(file_name);
-        file.seekp(index);
+        file.seekp(index,ios::beg);
         file.write(reinterpret_cast<char *>(&t), sizeofT);
         file.close();
     }
