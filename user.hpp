@@ -151,6 +151,7 @@ void user::su(TokenScanner& s) const{
                 error("wrong password!");//todo error：password error
             }
         }
+        cout<<pr<<')'<<id<<" log in.\n";
         log_stack.push_back(user1);
         currentUser = user1;
         selected=false;
@@ -187,11 +188,11 @@ void user::passwd(TokenScanner& s) const{
     if(pr=='7'){
         user user1;
         if(userList.findOne(s.nextToken(),user1)){
-            user tmp=user1;
+            userList.Delete(user1.id,user1);
             strcpy(user1.password,s.nextToken().c_str());
-            userList.update(user1.id,tmp,user1);
-         }else {
-            error("account not found!");//todo:cannot find user error
+            userList.insert(user1.id,user1);
+        }else {
+            error("account not found:");//todo:cannot find user error
         }
     }else{
         user user1;
@@ -199,9 +200,9 @@ void user::passwd(TokenScanner& s) const{
             if(strcmp(s.nextToken().c_str(),user1.password)!=0){
                error("wrong password!"); //todo:password error
             }
-            user tmp=user1;
+            userList.Delete(user1.id,user1);
             strcpy(user1.password,s.nextToken().c_str());
-            userList.update(user1.id,tmp,user1);
+            userList.insert(user1.id,user1);
         }else {
             error("account not found!");//todo:cannot find user error
         }
@@ -291,7 +292,10 @@ void user::show(TokenScanner &s) {
 }
 
 void user::select(TokenScanner &s) {
-    if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you wanna select.");
+    if(pr=='0'||pr=='1'){
+        cout<<pr<<')'<<id<<':';
+        error("you don't have the priority. Sign in first if you wanna select.");
+    }
     string Isbn=s.nextToken();
     if(Isbn.length()>30)error("too long isbn");
     book book1(Isbn);
