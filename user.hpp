@@ -227,6 +227,7 @@ void user::useradd(TokenScanner& s) const {
 void user::Delete(TokenScanner& s) {
     if(pr!='7')error("only superUser can delete an account.");
     string _id=s.nextToken();
+    if(!isID(_id))error("invalid ID");
     if(s.hasMoreToken())error("token too much!");
     user tmp;
     if(!userList.findOne(_id,tmp)){
