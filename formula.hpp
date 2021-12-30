@@ -90,20 +90,9 @@ long long int toNumber(const string& s){
 };
 float toFloat(const string& s){
     int l=s.length();int i;
-    float num=0;
+    double num=0;
     if(l>13)error("too long float");
-    for(i=0;i<l;i++){
-        if(s[i]!='.')num=10*num+s[i]-'0';
-        else break;
-    }
-    if(i==l-2){
-        num+=0.1*(s[i+1]-'0');
-    }
-    if(i==l-3){
-        num+=0.1*(s[i+1]-'0')+0.01*(s[i+2]-'0');
-    }
-    num=num+0.00;
-    return num;
+    num=stod(s);
+    return float(num);
 }
-
 #endif //MAIN_CPP_FORMULA_HPP

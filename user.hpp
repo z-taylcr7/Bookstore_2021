@@ -180,7 +180,6 @@ void user::register_account(TokenScanner& s){
 }
 void user::passwd(TokenScanner& s) const{
     if(pr=='0')error("please create an account!");
-    //is password?
     if(pr=='7'){
         user user1;
         if(userList.findOne(s.nextToken(),user1)){
@@ -383,8 +382,8 @@ void user::buy(TokenScanner &s) {
     if(bookList_ISBN.findOne(key,book1)){
         long long int quantity= toNumber(s.nextToken());
         book1.addAmount(-quantity);
-        float price=quantity*book1.getPrice();
-        cout<<fixed<<setprecision(2)<<price<<'\n';
+        double price=book1.getPrice()*quantity;
+        cout<<fixed<<setprecision(2)<<double(book1.getPrice()*quantity)<<'\n';
         //todo:log data.
         trade log(price,0);
         finance.write(log);
@@ -405,7 +404,7 @@ void user::import(TokenScanner &s) const {
 }
 
 ostream &operator<<(ostream &os, const user &user) {
-    os << "name is: " << user.name;
+    os <<user.pr<< ')' << user.id<<"    ";
     return os;
 }
 

@@ -26,7 +26,7 @@ public:
 
     void addAmount(int x);
 
-    float getPrice();
+    double getPrice();
 
 private:
     char ISBN[22] ;
@@ -146,8 +146,8 @@ ostream &operator<<(ostream &os, const book &rhs) {
     return os;
 }
 
-float book::getPrice(){
-    return toFloat(price);
+double book::getPrice(){
+    return double(toFloat(price));
 }
 void book::setModification( book& mod) {
     bookList_ISBN.Delete(ISBN,*this);

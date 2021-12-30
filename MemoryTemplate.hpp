@@ -21,7 +21,7 @@ using std::ofstream;
 //BOOKs
 
 
-const int maxElements=50;
+const int maxElements=500;
 
 #include "memory.hpp"
 string data_file;
@@ -112,8 +112,6 @@ public:
     }
     ~BlockList(){}
     bool initialize(const string& m_name,const string& d_name){
-        blockNode init;
-
         map_name=m_name;
         data_name=d_name;
         data.initialise(data_name);
