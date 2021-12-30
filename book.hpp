@@ -143,6 +143,7 @@ ostream &operator<<(ostream &os, const book &rhs) {
         os<<rhs.keyword[i]<<'|';
     }
     if(rhs.keys>0)os<<rhs.keyword[rhs.keys-1]<<'\t';
+    else os<<'\t';
     os<<fixed<<setprecision(2)<<toFloat(rhs.price)<<'\t'<<rhs.amount;
     return os;
 }

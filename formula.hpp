@@ -91,6 +91,7 @@ long long int toNumber(const string& s){
 float toFloat(const string& s){
     int l=s.length();int i;
     float num=0;
+    if(l>13)error("too long float");
     for(i=0;i<l;i++){
         if(s[i]!='.')num=10*num+s[i]-'0';
         else break;

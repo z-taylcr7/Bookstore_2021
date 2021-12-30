@@ -171,9 +171,6 @@ void user::register_account(TokenScanner& s){
     string _pw=s.nextToken();
     string _name=s.nextToken();
     if(s.hasMoreToken())error("token too much!");
-    if(!isUserName(_name)||!(isID(_id))||!isPassword(_pw)){
-        error("input error!");//todo:input error
-    }
     user user1(_id,_pw,_name,"1");
     if(userList.findOne(_id,user1)){
         error("account has been registered!");//todo:reRegister error
