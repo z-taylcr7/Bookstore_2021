@@ -32,7 +32,7 @@ private:
     char ISBN[22] ;
     char book_name[62];
     char author[62];
-    char keyword[20][60];
+    char keyword[62][62];
     int amount;
     int keys;
     char price[14] ;
@@ -81,10 +81,7 @@ void book::toKeyword(const string &t) {
 }
 
 book::book(const book &ob) {
-    memset(&ISBN,0,sizeof(ISBN));
-    memset(&price,0,sizeof(price));
-    memset(&book_name,0,sizeof(book_name));
-    memset(&author,0,sizeof(author));
+
     memset(&keyword,0,sizeof(keyword));
     strcpy(ISBN,ob.ISBN);
     strcpy(author,ob.author);
@@ -98,10 +95,6 @@ book::book(const book &ob) {
 }
 
 book::book(const string &i, const string &n="", const string &a="", const string &k="", int q=0, const string &p="0.00") {
-    memset(&ISBN,0,sizeof(ISBN));
-    memset(&price,0,sizeof(price));
-    memset(&book_name,0,sizeof(book_name));
-    memset(&author,0,sizeof(author));
     memset(&keyword,0,sizeof(keyword));
     strcpy(ISBN,i.c_str());
     strcpy(book_name,n.c_str());

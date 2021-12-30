@@ -313,18 +313,15 @@ public:
         }
         pos=tmp;
         list.read(it,pos);
-        while(true) {
             int i=std::lower_bound(it.elements,it.elements+it.numElements,node)-it.elements;
             for (; i < it.numElements; i++) {
                 if (strcmp(key.c_str(),it.elements[i].Key().c_str())==0) {
                     it.elements[i].Value(ans);return true;
                 }
+                if (strcmp(key.c_str(),it.elements[i].Key().c_str())<0) {
+                    return false;
+                }
             }
-            if(it.nextBlock==-1)break;
-            pos=it.nextBlock;
-            list.read(it,pos);
-            if(strcmp(it.elements[0].Key().c_str(),key.c_str())>0)break;
-        }
         return false;
     }
 };
