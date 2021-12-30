@@ -7,8 +7,6 @@
 #include <string>
 #include <iomanip>
 
-
-extern int currentOffset;
 class book{
 
 public:

@@ -332,6 +332,7 @@ void user::modify(TokenScanner &s){
         if(i==len)error("token required.");
         if(type=="ISBN"){
             if(isbn)error("0");
+            if(token=="")error("0-0");
             if(!isISBN(token))error("wrong isbn");
             string Isbn=token;
             book book1(Isbn);
@@ -342,6 +343,7 @@ void user::modify(TokenScanner &s){
         if(type=="name") {
             if(n)error("name repeat");
             token=token.substr(1,token.length()-2);
+            if(token=="")error("0-0");
             if(!isBookName(token))error("wrong name");
             n=true;
             mod.changeBookName(token);
@@ -349,6 +351,7 @@ void user::modify(TokenScanner &s){
         if(type=="author") {
             token=token.substr(1,token.length()-2);
             if(a)error("author repeat");
+            if(token=="")error("0-0");
             if(!isBookName(token))error("wrong author");
             a=true;
             mod.changeAuthor(token);
@@ -356,12 +359,14 @@ void user::modify(TokenScanner &s){
         if(type=="keyword"){
             if(k)error("no more keyword");
             token=token.substr(1,token.length()-2);
+            if(token=="")error("0-0");
             if(!isBookName(token))error("wrong keyword");
             k=true;
             mod.changeKeyword(token);
         }
         if(type=="price"){
             if(p)error("no price anymore.");
+            if(token=="")error("0-0");
             if(!isPrice(token))error("wrong price");
             p=true;
             mod.changePrice(token);
@@ -415,6 +420,9 @@ istream &operator>>(istream &is, user &user1) {
 void user::showFinance(const string& times) {
     if(pr!='7')error("You're not allowed to see this.");
     fstream file;
+    if(times=="0"){
+        cout<<'\n';return;
+    }
     file.open("trade_data");
     trade sum(0,0);
     int d=finance.getIndexMax();
