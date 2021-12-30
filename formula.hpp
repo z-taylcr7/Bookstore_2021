@@ -81,6 +81,7 @@ bool isPrice(const string&price){
 };
 int toNumber(const string& s){
     int l=s.length();
+    if(l>10)error("longlong");
     int num=0;
     for(int i=0;i<l;i++){
         num=10*num+s[i]-'0';

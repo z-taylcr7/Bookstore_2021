@@ -76,12 +76,9 @@ int main()
     bookList_author.initialize("book_author_map","book_data_2");
     bookList_book_name.initialize("book_book_name_map","book_data_3");
     bookList_keyword.initialize("book_keyword_map","book_data_4");
-
-
-    while(true){
+    string exp;
+    while(getline(cin, exp)){
         try {
-            string exp;
-            getline(cin, exp);
             if (exp == "exit" || exp == "quit")break;
             TokenScanner token_scanner(exp);
             currentUser.allocate(token_scanner);
@@ -90,7 +87,8 @@ int main()
         }
     }
     end=clock();
-    //cout<<(float)((end-start)*1000/CLOCKS_PER_SEC);
+    //
+    // cout<<(float)((end-start)*1000/CLOCKS_PER_SEC);
 }
 
 

@@ -113,11 +113,12 @@ public:
     ~BlockList(){}
     bool initialize(const string& m_name,const string& d_name){
         blockNode init;
-        list.update(init,headIndex);
+
         map_name=m_name;
         data_name=d_name;
         data.initialise(data_name);
-        return list.initialise(map_name);
+        bool res=list.initialise(map_name);
+        return res;
     }
     void swap(blockNode& lhs,int r,int j){
         data_file=data_name;
@@ -126,7 +127,7 @@ public:
         lhs.elements[r]=lhs.elements[j];
         lhs.elements[j]=tmp;
     }
-    void insert(const string& key,T& value){
+    int insert(const string& key,T& value){
         data_file=data_name;
         int num=data.write(value);
         Node<T> node(key,num);
@@ -151,6 +152,7 @@ public:
             apart(it);
         }
         list.update(it,pos);
+        return num;
     }
 
     void apart(blockNode& it){

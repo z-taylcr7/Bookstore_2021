@@ -87,7 +87,7 @@ BlockList<book> bookList_ISBN;
 BlockList<book> bookList_keyword;
 BlockList<book> bookList_author;
 BlockList<book> bookList_book_name;
-int currentOffset;
+
 book currentBook;
 bool selected=false;
 user::user(){
@@ -296,7 +296,7 @@ void user::select(TokenScanner &s) {
     if(Isbn.length()>30)error("too long isbn");
     book book1(Isbn);
     if(!bookList_ISBN.findOne(Isbn,book1)){
-        bookList_ISBN.insert(Isbn,book1);
+       bookList_ISBN.insert(Isbn,book1);
     }
     currentBook=book1;
     selected=true;

@@ -7,6 +7,8 @@
 #include <string>
 #include <iomanip>
 
+
+extern int currentOffset;
 class book{
 
 public:
@@ -178,12 +180,15 @@ void book::changePrice(string s) {
 }
 void book::addAmount(int x) {
     if(amount+x<0)error("sold out!");
-    book tmp=*this;
+    bookList_ISBN.Delete(ISBN,*this);
+    bookList_book_name.Delete(book_name,*this);
+    bookList_author.Delete(author, *this);
+    for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],*this);
     amount+=x;
-    bookList_keyword.update(keyword[0],tmp,*this);
-    bookList_author.update(author,tmp,*this);
-    bookList_book_name.update(book_name,tmp,*this);
-    bookList_ISBN.update(ISBN,tmp,*this);
+    for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],*this);
+    bookList_author.insert(author,*this);
+    bookList_book_name.insert(book_name,*this);
+    bookList_ISBN.insert(ISBN,*this);
 }
 
 
