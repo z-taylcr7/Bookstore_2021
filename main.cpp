@@ -68,7 +68,7 @@ int main()
     std::ios::sync_with_stdio(0);
     finance.initialise("trade_data");
     //initialise:
-    user superUser("root","sjtu","yyu",'7');fstream file;
+    user superUser("root","sjtu","yyu","7");fstream file;
     if(userList.initialize("user_id_map","user_data")) {
         userList.insert("root", superUser);
     }

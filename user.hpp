@@ -31,7 +31,7 @@ public:
 
     explicit user(int x);
 
-    user(const string& _id,const string& _password,const string& _name,const char&_pr);
+    user(const string& _id,const string& _password,const string& _name,const string&_pr);
 
     void allocate(TokenScanner& s);
 
@@ -108,11 +108,11 @@ user::user(int x){
     strcpy(password,_password.c_str());
     strcpy(name,_name.c_str());
 }
-user::user(const string& _id,const string& _password,const string& _name,const char&_pr ){
-    if(!isUserName(_name)||!(isID(_id))||!isPassword(_password)){
+user::user(const string& _id,const string& _password,const string& _name,const string&_pr ){
+    if(!isUserName(_name)||!(isID(_id))||!isPassword(_password)||!isPriority(_pr)){
         error("input error!");
     }
-    pr=_pr;
+    pr=_pr[0];
     strcpy(id,_id.c_str());
     strcpy(password,_password.c_str());
     strcpy(name,_name.c_str());
@@ -151,7 +151,6 @@ void user::su(TokenScanner& s) const{
                 error("wrong password!");//todo error：password error
             }
         }
-        cout<<pr<<')'<<id<<" log in.\n";
         log_stack.push_back(user1);
         currentUser = user1;
         selected=false;
@@ -175,7 +174,7 @@ void user::register_account(TokenScanner& s){
     if(!isUserName(_name)||!(isID(_id))||!isPassword(_pw)){
         error("input error!");//todo:input error
     }
-    user user1(_id,_pw,_name,'1');
+    user user1(_id,_pw,_name,"1");
     if(userList.findOne(_id,user1)){
         error("account has been registered!");//todo:reRegister error
     }else{
@@ -188,8 +187,10 @@ void user::passwd(TokenScanner& s) const{
     if(pr=='7'){
         user user1;
         if(userList.findOne(s.nextToken(),user1)){
+            string pw=s.nextToken();
+            if(!isPassword(pw))error("invalid password");
             userList.Delete(user1.id,user1);
-            strcpy(user1.password,s.nextToken().c_str());
+            strcpy(user1.password,pw.c_str());
             userList.insert(user1.id,user1);
         }else {
             error("account not found:");//todo:cannot find user error
@@ -215,7 +216,7 @@ void user::useradd(TokenScanner& s) const {
     string _pr=s.nextToken();
     string _name=s.nextToken();
     if(s.hasMoreToken())error("token too much!");
-    user user1(_id,_pw,_name,_pr[0]);
+    user user1(_id,_pw,_name,_pr);
     if(!isUserName(_name)||!(isID(_id))||!isPassword(_pw)||!isPriority(_pr)){
         error("input error!");//todo:input error
     }else {
@@ -293,7 +294,6 @@ void user::show(TokenScanner &s) {
 
 void user::select(TokenScanner &s) {
     if(pr=='0'||pr=='1'){
-        cout<<pr<<')'<<id<<':';
         error("you don't have the priority. Sign in first if you wanna select.");
     }
     string Isbn=s.nextToken();
@@ -400,7 +400,7 @@ ostream &operator<<(ostream &os, const user &user) {
 istream &operator>>(istream &is, user &user1) {
     string id,pw,name;
     is>>id>>pw>>name;
-    user user2(id,pw,name,'1');
+    user user2(id,pw,name,"1");
     user1=user2;
     return is;
 }
