@@ -15,7 +15,7 @@ private:
     fstream file;
     string file_name;
     int sizeofT = sizeof(T);
-    int indexmax=5;
+    long long int indexmax=5;
     std::vector<int>deleted;
 public:
     Memo()=default;
@@ -96,7 +96,7 @@ public:
         return 0;
     }
 
-    int getIndexMax() const {
+    long long int getIndexMax() const {
         return indexmax;
     }
 

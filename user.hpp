@@ -413,6 +413,7 @@ void user::buy(TokenScanner &s) {
     if(int ofs=bookList_ISBN.findOne(key,book1)){
         if(finance.getIndexMax()>5+sizeof(trade)*2147483647)error("full");
         long long int quantity=stoll(s.nextToken());
+        if(quantity>2147483647)error("invalid amount");
         book1.addAmount(-quantity);
         library.update(book1,ofs);
         double price=book1.getPrice()*quantity;
@@ -429,6 +430,7 @@ void user::import(TokenScanner &s) const {
     if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you want to import.");
     if(!selected)error("select a book first.");
     int quantity= toNumber(s.nextToken());
+    if(quantity>2147483647)error("invalid amount");
     currentBook.addAmount(quantity);
     double price= toFloat(s.nextToken());
     //todo:log data.

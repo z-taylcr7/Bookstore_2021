@@ -74,6 +74,7 @@ void book::toKeyword(const string &t) {
     if(l>60)error("too long");
     for(int i=0;i<l;i++){
         if(t[i]=='|'){
+            if(i-j==0)error("");
             strcpy(keyword[cnt++],t.substr(j,i-j).c_str());j=i+1;
         }
         for(int i=0;i<cnt-1;i++){
