@@ -171,6 +171,7 @@ void user::su(TokenScanner& s) const{
 void user::logout(TokenScanner& s) {
     if(s.hasMoreToken())error("token too much!");
     if(log_stack.empty())error("no account!");
+    if(pr=='0')error("beyond your priority");
     log_stack.pop_back();
     if(log_stack.empty()){
         user user1;book book1;
@@ -298,8 +299,8 @@ void user::show(TokenScanner &s) {
         bookList_ISBN.find(token);return;
     }
     if(token[0]!='"'||token[token.length()-1]!='"')error("formula error");
-    if(token.length()==0)error("no token");
     token=token.substr(1,token.length()-2);
+    if(token.length()==0)error("no token");
     if(type=="name"){
         if(!isBookName(token))error("wrong book name");
         bookList_book_name.find(token);
@@ -405,10 +406,12 @@ void user::modify(TokenScanner &s){
 }
 
 void user::buy(TokenScanner &s) {
+    if(pr=='0')error("beyond your priority");
     string key=s.nextToken();
     if(!isISBN(key))error("invalid isbn");
     book book1;
     if(int ofs=bookList_ISBN.findOne(key,book1)){
+        if(finance.getIndexMax()>5+sizeof(trade)*2147483647)error("full");
         long long int quantity=stoll(s.nextToken());
         book1.addAmount(-quantity);
         library.update(book1,ofs);
