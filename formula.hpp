@@ -80,6 +80,7 @@ bool isPrice(const string&price){
     return true;
 };
 long long int toNumber(const string& s){
+    if(!isNumber(s))error("not a number!");
     int l=s.length();
     if(l>10)error("longlong");
     long long int num=0;
@@ -89,6 +90,7 @@ long long int toNumber(const string& s){
     return num;
 };
 double toFloat(const string& s){
+    if(!isPrice(s))error("not a number!");
     int l=s.length();int i;
     double num=0;
     if(l>13)error("too long");

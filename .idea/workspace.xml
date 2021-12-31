@@ -95,7 +95,7 @@
       <workItem from="1640717414226" duration="20501000" />
       <workItem from="1640833284281" duration="23488000" />
       <workItem from="1640876686052" duration="6512000" />
-      <workItem from="1640883791959" duration="26097000" />
+      <workItem from="1640883791959" duration="28330000" />
     </task>
     <servers />
   </component>
@@ -129,6 +129,36 @@
           <url>file://$PROJECT_DIR$/user.hpp</url>
           <line>450</line>
           <option name="timeStamp" value="152" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/formula.hpp</url>
+          <line>84</line>
+          <option name="timeStamp" value="154" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/user.hpp</url>
+          <line>173</line>
+          <option name="timeStamp" value="155" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/user.hpp</url>
+          <line>180</line>
+          <option name="timeStamp" value="156" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/user.hpp</url>
+          <line>156</line>
+          <option name="timeStamp" value="159" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/MemoryTemplate.hpp</url>
+          <line>312</line>
+          <option name="timeStamp" value="160" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/MemoryTemplate.hpp</url>
+          <line>327</line>
+          <option name="timeStamp" value="161" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -155,7 +155,7 @@ void user::su(TokenScanner& s) const{
         }
         if(!log_stack.empty()){
             log_stack.pop_back();
-            int of1=userList.index(currentUser);
+            int of1=userList.findOne(currentUser.id,currentUser);
             int of2=currentOffset;
             log_stack.push_back(make_pair(of1,of2));
         }
@@ -408,11 +408,11 @@ void user::buy(TokenScanner &s) {
     if(!isISBN(key))error("invalid isbn");
     book book1;
     if(int ofs=bookList_ISBN.findOne(key,book1)){
-        long long int quantity= toNumber(s.nextToken());
+        long long int quantity=stoll(s.nextToken());
         book1.addAmount(-quantity);
         library.update(book1,ofs);
         double price=book1.getPrice()*quantity;
-        cout<<fixed<<setprecision(2)<<double(book1.getPrice()*quantity)<<'\n';
+        cout<<fixed<<setprecision(2)<<book1.getPrice()*quantity<<'\n';
         //todo:log data.
         trade log(price,0);
         finance.write(log);

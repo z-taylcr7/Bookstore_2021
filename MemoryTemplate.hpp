@@ -50,7 +50,7 @@ public:
         file.read(reinterpret_cast<char *>(&t), sizeof(T));
         file.close();
     }
-    const int&Offset ()const{return offset;};
+    const int Offset ()const{return offset;};
     bool operator<(const Node &rhs) const {
         if (!strcmp(key, rhs.key)) {
             if(offset==0&&rhs.offset!=0)return true;
