@@ -88,11 +88,11 @@ long long int toNumber(const string& s){
     }
     return num;
 };
-float toFloat(const string& s){
+double toFloat(const string& s){
     int l=s.length();int i;
     double num=0;
-    if(l>13)error("too long float");
+    if(l>13)error("too long");
     num=stod(s);
-    return float(num);
+    return double(num);
 }
 #endif //MAIN_CPP_FORMULA_HPP

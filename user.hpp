@@ -289,6 +289,7 @@ void user::show(TokenScanner &s) {
         }
         i++;
     }
+    if(token.length()==0)error("no token");
     if(i==len)error("token required.");
     if(type[0]!='-')error("formula error'-'");
     type=type.substr(1);
@@ -297,6 +298,7 @@ void user::show(TokenScanner &s) {
         bookList_ISBN.find(token);return;
     }
     if(token[0]!='"'||token[token.length()-1]!='"')error("formula error");
+    if(token.length()==0)error("no token");
     token=token.substr(1,token.length()-2);
     if(type=="name"){
         if(!isBookName(token))error("wrong book name");
@@ -424,7 +426,7 @@ void user::import(TokenScanner &s) const {
     if(!selected)error("select a book first.");
     int quantity= toNumber(s.nextToken());
     currentBook.addAmount(quantity);
-    float price= toFloat(s.nextToken());
+    double price= toFloat(s.nextToken());
     //todo:log data.
     trade log(0,price);
     finance.write(log);
@@ -460,12 +462,12 @@ void user::showFinance(const string& times) {
             sum += tmp;
             d -= sizeof(trade);
         }
-        cout<<sum<<'\n';
+        cout<<fixed<<setprecision(2)<<sum<<'\n';
         return;
     }
     int t=toNumber(times);
+    if(t>(d-5)/sizeof(trade))error("trades limited.");
     while(t--&&d>5){
-
         trade tmp;
         finance.read(tmp,d);
         sum+=tmp;

@@ -44,7 +44,7 @@ int main()
             TokenScanner token_scanner(exp);
             currentUser.allocate(token_scanner);
         }catch(errorException e){
-            cout<<"Invalid\n";
+            cout<<currentUser<<' '<<e.getMessage()<<"Invalid\n";
         }
     }
 }

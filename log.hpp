@@ -11,11 +11,11 @@ public:
 
 };
 class trade{
-    float in;
-    float out;
+    double in;
+    double out;
 public:
     trade()=default;
-    trade(float x,float y):in(x),out(y){};
+    trade(double x,double y):in(x),out(y){};
     trade& operator+=(const trade& rhs){
         in+=rhs.in;
         out+=rhs.out;
