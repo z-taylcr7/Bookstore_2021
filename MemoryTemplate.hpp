@@ -103,8 +103,8 @@ private:
     };
     int headIndex=5;
     Memo<blockNode> list;
-    Memo<T>data;
 public:
+    Memo<T>data;
     BlockList() {
         blockNode t;
         t.numElements=0;
@@ -125,9 +125,8 @@ public:
         lhs.elements[r]=lhs.elements[j];
         lhs.elements[j]=tmp;
     }
-    int insert(const string& key,T& value){
+    int insert(const string& key,int num){
         data_file=data_name;
-        int num=data.write(value);
         Node<T> node(key,num);
         blockNode it;
         int pos=headIndex,tmp=headIndex;
@@ -216,10 +215,9 @@ public:
         }
         data.Delete(ofs);
     }
-    bool Delete(const string& key, T &value){
+    bool Delete(const string& key,int ofs){
         bool deleted=false;
         data_file=data_name;
-        int ofs=data.write(value);
         Node<T> node(key,ofs);
         blockNode it;int pos=headIndex,tmp=headIndex;
         list.read(it,headIndex);
@@ -246,7 +244,6 @@ public:
             list.read(it,pos);
             if(node<it.elements[0])break;
         }
-        data.Delete(ofs);
         return deleted;
 
     }
@@ -304,7 +301,15 @@ public:
             }
         }
     }
-    bool findOne(const string& key,T& ans){
+    T read(int ofs){
+
+        T t;if(ofs==0)return t;
+        data.read(t,ofs);return t;
+    }
+    int index(const T& t){
+        return data.find(t);
+    }
+    int findOne(const string& key,T& ans){
         data_file=data_name;
         Node<T> node(key,0);
         blockNode it;int pos=headIndex,tmp=headIndex;
@@ -320,7 +325,7 @@ public:
             int i=std::lower_bound(it.elements,it.elements+it.numElements,node)-it.elements;
             for (; i < it.numElements; i++) {
                 if (strcmp(key.c_str(),it.elements[i].Key().c_str())==0) {
-                    it.elements[i].Value(ans);return true;
+                    it.elements[i].Value(ans);return it.elements[i].Offset();
                 }
             }
         if(it.nextBlock==-1)break;
@@ -328,7 +333,7 @@ public:
         list.read(it,pos);
         if(strcmp(it.elements[0].Key().c_str(),key.c_str())>0)break;
     }
-        return false;
+        return 0;
     }
 };
 #endif //BOOKSTORAGE_CBP_MEMORYTEMPLATE_HPP

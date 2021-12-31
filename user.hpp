@@ -79,9 +79,10 @@ public:
 
 //********USER-Memory***********//
 BlockList<user> userList;
-vector<pair<user,book>>log_stack;
+vector<pair<int,int>>log_stack;
 static user currentUser;
 Memo<trade> finance;
+Memo<book> library;
 //***************Book-Memory****************//
 BlockList<book> bookList_ISBN;
 BlockList<book> bookList_keyword;
@@ -89,6 +90,7 @@ BlockList<book> bookList_author;
 BlockList<book> bookList_book_name;
 
 book currentBook;
+int currentOffset;
 bool selected=false;
 user::user(){
     pr='0';
@@ -142,7 +144,7 @@ void user::allocate(TokenScanner& s){
 
 void user::su(TokenScanner& s) const{
     user user1;
-    if(userList.findOne(s.nextToken(),user1)) {
+    if(int x=userList.findOne(s.nextToken(),user1)) {
         if (pr <= user1.pr) {
             if(!s.hasMoreToken())error("password required!");
             string st = s.nextToken();
@@ -153,12 +155,14 @@ void user::su(TokenScanner& s) const{
         }
         if(!log_stack.empty()){
             log_stack.pop_back();
-            log_stack.push_back(make_pair(currentUser,currentBook));
+            int of1=userList.index(currentUser);
+            int of2=currentOffset;
+            log_stack.push_back(make_pair(of1,of2));
         }
         book book1;
-        log_stack.push_back(make_pair(user1,book1));
         currentUser = user1;
         currentBook=book1;
+        log_stack.push_back(make_pair(x,0));
         selected=false;
     }else{
         error("account not found!");//todo:cant find error
@@ -166,13 +170,18 @@ void user::su(TokenScanner& s) const{
 }
 void user::logout(TokenScanner& s) {
     if(s.hasMoreToken())error("token too much!");
-    if(pr=='0')error("no account!");
+    if(log_stack.empty())error("no account!");
     log_stack.pop_back();
-    book book1;
-    if(log_stack.empty())log_stack.push_back(make_pair(user(0),book1));
-    currentUser=log_stack.back().first;
-    currentBook=log_stack.back().second;
-    selected=(currentBook!=book1);
+    if(log_stack.empty()){
+        user user1;book book1;
+        currentUser=user1;
+        currentBook=book1;
+        currentOffset=0;return;
+    }
+    currentUser=userList.read(log_stack.back().first);
+    currentOffset=log_stack.back().second;
+    library.read(currentBook,currentOffset);
+    selected=(log_stack.back().second!=0);
 }
 void user::register_account(TokenScanner& s){
     string _id=s.nextToken();
@@ -183,39 +192,36 @@ void user::register_account(TokenScanner& s){
     if(userList.findOne(_id,user1)){
         error("account has been registered!");//todo:reRegister error
     }else{
-        userList.insert(_id,user1);
+        int x=userList.data.write(user1);
+        userList.insert(_id,x);
     }
 }
 void user::passwd(TokenScanner& s) const{
     if(pr=='0')error("please create an account!");
     if(pr=='7'){
         user user1;
-        if(userList.findOne(s.nextToken(),user1)){
+        if(int of=userList.findOne(s.nextToken(),user1)){
             string pw=s.nextToken();
             if(!isPassword(pw))error("invalid password");
-            userList.Delete(user1.id,user1);
             strcpy(user1.password,pw.c_str());
-            userList.insert(user1.id,user1);
+            userList.data.update(user1,of);
         }else {
             error("account not found:");//todo:cannot find user error
         }
     }else{
         user user1;
-        if(userList.findOne(s.nextToken(),user1)){
+        if(int of=userList.findOne(s.nextToken(),user1)){
             if(strcmp(s.nextToken().c_str(),user1.password)!=0){
                 error("wrong password!"); //todo:password error
             }
             string pw=s.nextToken();
             if(!isPassword(pw))error("invalid password");
-            userList.Delete(user1.id,user1);
             strcpy(user1.password,pw.c_str());
-            userList.insert(user1.id,user1);
+            userList.data.update(user1,of);
         }else {
             error("account not found!");//todo:cannot find user error
         }
     }
-    log_stack.pop_back();
-    log_stack.push_back(make_pair(currentUser,currentBook));
 }
 void user::useradd(TokenScanner& s) const {
     if(pr=='0'||pr=='1')error("you can't even do this!");
@@ -227,7 +233,8 @@ void user::useradd(TokenScanner& s) const {
     user user1(_id,_pw,_name,_pr);
     if(_pr[0]>pr||_pr[0]==pr)error("this operation is beyond your priority.");//todo::priority error;
     if(userList.findOne(_id,user1))error("account has been registered!");//todo:re register ;
-    userList.insert(_id,user1);
+    int u=userList.data.write(user1);
+    userList.insert(_id,u);
 }
 
 void user::Delete(TokenScanner& s) {
@@ -236,15 +243,16 @@ void user::Delete(TokenScanner& s) {
     if(!isID(_id))error("invalid ID");
     if(s.hasMoreToken())error("token too much!");
     user tmp;
-    if(!userList.findOne(_id,tmp)){
+    int of=userList.findOne(_id,tmp);
+    if(!of){
         error("account not found!");//todo:cannot find
     }
     for(auto it:log_stack){
-        if(strcmp(it.first.id,_id.c_str())==0){
+        if(strcmp(userList.read(it.first).id,_id.c_str())==0){
             error("the account has logged in.");//todo:logged in
         }
     }
-    userList.Delete(_id,tmp);
+    userList.Delete(_id,of);
 }
 bool user::operator<(const user&obj){
     return (strcmp(obj.id,id)>0);
@@ -313,19 +321,24 @@ void user::select(TokenScanner &s) {
     string Isbn=s.nextToken();
     if(!isISBN(Isbn))error("too long for isbn");
     book book1(Isbn);
-    if(!bookList_ISBN.findOne(Isbn,book1)){
-        bookList_ISBN.insert(Isbn,book1);
+    int x=bookList_ISBN.findOne(Isbn,book1);
+    if(!x){
+        x=library.write(book1);
+        bookList_ISBN.insert(Isbn,x);
     }
+    currentOffset=x;
     currentBook=book1;
+    int y=log_stack.back().first;
     log_stack.pop_back();
-    log_stack.push_back(make_pair(currentUser,currentBook));
+    log_stack.push_back(make_pair(y,x));
     selected=true;
 }
 
 void user::modify(TokenScanner &s){
     if(pr=='0'||pr=='1'){error("you don't have the priority. Sign in first if you want to modify.");return;}
     if(!selected)error("please select a book first!");
-    book mod=currentBook;
+    book mod;
+    library.read(mod,log_stack.back().second);
     bool a= false,n=false,isbn=false,k=false,p=false;
     while(s.hasMoreToken()){
         string t=s.nextToken().substr(1);
@@ -384,26 +397,23 @@ void user::modify(TokenScanner &s){
         }
         if(type!="ISBN"&&type!="keyword"&&type!="author"&&type!="price"&&type!="name")error("type error");
     }
-    currentBook.setModification(mod);
+    currentBook.setModification(mod,currentOffset);
     currentBook=mod;
-    log_stack.pop_back();
-    log_stack.push_back(make_pair(currentUser,currentBook));
 }
 
 void user::buy(TokenScanner &s) {
     string key=s.nextToken();
     if(!isISBN(key))error("invalid isbn");
     book book1;
-    if(bookList_ISBN.findOne(key,book1)){
+    if(int ofs=bookList_ISBN.findOne(key,book1)){
         long long int quantity= toNumber(s.nextToken());
         book1.addAmount(-quantity);
+        library.update(book1,ofs);
         double price=book1.getPrice()*quantity;
         cout<<fixed<<setprecision(2)<<double(book1.getPrice()*quantity)<<'\n';
         //todo:log data.
         trade log(price,0);
         finance.write(log);
-        log_stack.pop_back();
-        log_stack.push_back(make_pair(currentUser,currentBook));
     }else{
         error("book not found!");
     }
@@ -418,8 +428,7 @@ void user::import(TokenScanner &s) const {
     //todo:log data.
     trade log(0,price);
     finance.write(log);
-    log_stack.pop_back();
-    log_stack.push_back(make_pair(currentUser,currentBook));
+    library.update(currentBook,currentOffset);
 }
 
 ostream &operator<<(ostream &os, const user &user) {

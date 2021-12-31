@@ -12,7 +12,7 @@ class book{
 public:
     book();
 
-    void setModification(book& mod) ;
+    void setModification(book& mod,int& ofs) ;
 
     void changeIsbn(string s) ;
 
@@ -56,6 +56,7 @@ public:
     friend ostream& operator<<(ostream&os,const book& rhs);
 
 };
+extern Memo<book>library;
 extern BlockList<book> bookList_keyword;
 extern BlockList<book> bookList_book_name;
 extern BlockList<book> bookList_ISBN;
@@ -149,16 +150,17 @@ ostream &operator<<(ostream &os, const book &rhs) {
 double book::getPrice(){
     return double(toFloat(price));
 }
-void book::setModification( book& mod) {
-    bookList_ISBN.Delete(ISBN,*this);
-    bookList_book_name.Delete(book_name,*this);
-    bookList_author.Delete(author, *this);
-    for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],*this);
+void book::setModification(book& mod, int &ofs) {
+    bookList_ISBN.Delete(ISBN,ofs);
+    bookList_book_name.Delete(book_name,ofs);
+    bookList_author.Delete(author, ofs);
+    for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],ofs);
+    library.update(mod,ofs);
     *this=mod;
-    for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],*this);
-    bookList_author.insert(author,*this);
-    bookList_book_name.insert(book_name,*this);
-    bookList_ISBN.insert(ISBN,*this);
+    for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],ofs);
+    bookList_author.insert(author,ofs);
+    bookList_book_name.insert(book_name,ofs);
+    bookList_ISBN.insert(ISBN,ofs);
 }
 void book::changeIsbn(string s) {
     strcpy(ISBN,s.c_str());
@@ -180,15 +182,8 @@ void book::changePrice(string s) {
 }
 void book::addAmount(int x) {
     if(amount+x<0)error("sold out!");
-    bookList_ISBN.Delete(ISBN,*this);
-    bookList_book_name.Delete(book_name,*this);
-    bookList_author.Delete(author, *this);
-    for(int i=0;i<keys;i++)bookList_keyword.Delete(keyword[i],*this);
     amount+=x;
-    for(int i=0;i<keys;i++)bookList_keyword.insert(keyword[i],*this);
-    bookList_author.insert(author,*this);
-    bookList_book_name.insert(book_name,*this);
-    bookList_ISBN.insert(ISBN,*this);
+
 }
 
 
