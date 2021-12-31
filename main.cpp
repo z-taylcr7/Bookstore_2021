@@ -40,6 +40,7 @@ int main()
     string exp;
     while(getline(cin, exp)){
         try {
+            if(exp=="")continue;
             if (exp == "exit" || exp == "quit")break;
             TokenScanner token_scanner(exp);
             currentUser.allocate(token_scanner);
