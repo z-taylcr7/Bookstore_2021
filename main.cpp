@@ -62,9 +62,6 @@ using std::ofstream;
 extern user currentUser;
 int main()
 {
-
-    clock_t start,end;
-    start=clock();
     std::ios::sync_with_stdio(0);
     finance.initialise("trade_data");
     //initialise:
@@ -83,12 +80,9 @@ int main()
             TokenScanner token_scanner(exp);
             currentUser.allocate(token_scanner);
         }catch(errorException e){
-            cout<<currentUser<<':'<<e.getMessage()<<"Invalid\n";
+            cout<<"Invalid\n";
         }
     }
-    end=clock();
-    //
-    // cout<<(float)((end-start)*1000/CLOCKS_PER_SEC);
 }
 
 
