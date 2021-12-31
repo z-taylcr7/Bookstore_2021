@@ -95,7 +95,7 @@
       <workItem from="1640717414226" duration="20501000" />
       <workItem from="1640833284281" duration="23488000" />
       <workItem from="1640876686052" duration="6512000" />
-      <workItem from="1640883791959" duration="28330000" />
+      <workItem from="1640883791959" duration="29406000" />
     </task>
     <servers />
   </component>
@@ -159,6 +159,11 @@
           <url>file://$PROJECT_DIR$/MemoryTemplate.hpp</url>
           <line>327</line>
           <option name="timeStamp" value="161" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.cpp</url>
+          <line>44</line>
+          <option name="timeStamp" value="162" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
