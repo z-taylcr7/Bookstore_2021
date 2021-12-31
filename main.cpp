@@ -22,9 +22,6 @@ extern user currentUser;
 
 int main()
 {
-
-    clock_t start,end;
-    start=clock();
     std::ios::sync_with_stdio(0);
     finance.initialise("trade_data");
     library.initialise("book_data");
@@ -50,9 +47,6 @@ int main()
             cout<<"Invalid\n";
         }
     }
-    end=clock();
-    //
-    // cout<<(float)((end-start)*1000/CLOCKS_PER_SEC);
 }
 
 
