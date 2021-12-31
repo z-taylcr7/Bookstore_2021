@@ -339,6 +339,7 @@ void user::select(TokenScanner &s) {
 void user::modify(TokenScanner &s){
     if(pr=='0'||pr=='1'){error("you don't have the priority. Sign in first if you want to modify.");return;}
     if(!selected)error("please select a book first!");
+    if(log_stack.back().second==0)error(" 00");
     book mod;
     library.read(mod,log_stack.back().second);
     bool a= false,n=false,isbn=false,k=false,p=false;

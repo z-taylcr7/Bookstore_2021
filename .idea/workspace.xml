@@ -95,7 +95,7 @@
       <workItem from="1640717414226" duration="20501000" />
       <workItem from="1640833284281" duration="23488000" />
       <workItem from="1640876686052" duration="6512000" />
-      <workItem from="1640883791959" duration="29406000" />
+      <workItem from="1640883791959" duration="30061000" />
     </task>
     <servers />
   </component>
@@ -112,7 +112,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/user.hpp</url>
-          <line>443</line>
+          <line>444</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -122,12 +122,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/user.hpp</url>
-          <line>461</line>
+          <line>462</line>
           <option name="timeStamp" value="151" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/user.hpp</url>
-          <line>450</line>
+          <line>451</line>
           <option name="timeStamp" value="152" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -164,6 +164,21 @@
           <url>file://$PROJECT_DIR$/main.cpp</url>
           <line>44</line>
           <option name="timeStamp" value="162" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/user.hpp</url>
+          <line>342</line>
+          <option name="timeStamp" value="163" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/user.hpp</url>
+          <line>339</line>
+          <option name="timeStamp" value="164" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/book.hpp</url>
+          <line>74</line>
+          <option name="timeStamp" value="166" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
