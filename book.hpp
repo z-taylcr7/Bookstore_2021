@@ -35,7 +35,7 @@ private:
     char keyword[62][62];
     int amount;
     int keys;
-    char price[14] ;
+    double price ;
 public:
 //构造，拷贝构造，=，<,==,!=
 
@@ -87,7 +87,7 @@ book::book(const book &ob) {
     strcpy(ISBN,ob.ISBN);
     strcpy(author,ob.author);
     strcpy(book_name,ob.book_name);
-    strcpy(price,ob.price);
+    price=ob.price;
     amount=ob.amount;
     keys=ob.keys;
     for(int i=0;i<keys;i++){
@@ -100,7 +100,7 @@ book::book(const string &i, const string &n="", const string &a="", const string
     strcpy(ISBN,i.c_str());
     strcpy(book_name,n.c_str());
     strcpy(author,a.c_str());
-    strcpy(price,p.c_str());
+    price=stod(p);
     if(!k.empty())toKeyword(k);
     else keys=0;
     amount=q;
@@ -116,7 +116,7 @@ book &book::operator=(const book &ob) {
     strcpy(ISBN,ob.ISBN);
     strcpy(author,ob.author);
     strcpy(book_name,ob.book_name);
-    strcpy(price,ob.price);
+    price=ob.price;
     amount=ob.amount;
     keys=ob.keys;
     for(int i=0;i<keys;i++){
@@ -143,12 +143,12 @@ ostream &operator<<(ostream &os, const book &rhs) {
     }
     if(rhs.keys>0)os<<rhs.keyword[rhs.keys-1]<<'\t';
     else os<<'\t';
-    os<<fixed<<setprecision(2)<<toFloat(rhs.price)<<'\t'<<rhs.amount;
+    os<<fixed<<setprecision(2)<<rhs.price<<'\t'<<rhs.amount;
     return os;
 }
 
 double book::getPrice(){
-    return double(toFloat(price));
+    return price;
 }
 void book::setModification(book& mod, int &ofs) {
     bookList_ISBN.Delete(ISBN,ofs);
@@ -178,7 +178,7 @@ void book::changeKeyword(string s) {
 }
 
 void book::changePrice(string s) {
-    strcpy(price,s.c_str());
+    price=stod(s);
 }
 void book::addAmount(int x) {
     if(amount+x<0)error("sold out!");
