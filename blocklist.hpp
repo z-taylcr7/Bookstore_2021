@@ -2,8 +2,8 @@
 // Created by Cristiano on 2021/12/18.
 //
 
-#ifndef BOOKSTORAGE_CBP_MEMORYTEMPLATE_HPP
-#define BOOKSTORAGE_CBP_MEMORYTEMPLATE_HPP
+#ifndef BOOKSTORE_CBP_BLOCKLIST_HPP
+#define BOOKSTORE_CBP_BLOCKLIST_HPP
 #include <iostream>
 #include <cstring>
 //#include<time.h>
@@ -11,6 +11,7 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include "memo.hpp"
 using namespace std;
 using std::string;
 using std::fstream;
@@ -19,29 +20,23 @@ using std::ofstream;
 
 
 //BOOKs
-
-
 const int maxElements=500;
-
-#include "memory.hpp"
-string data_file;
-string map_file;
+extern string data_file;
 template<class T>
 class Node{
 private:
     char key[65];
     int offset=0;
 public:
-    Node() {
+    Node(){
         memset(&key,0,sizeof(key));
         offset=0;
-    }
-    Node(const string &key_, const int &offset_)
-            :  offset(offset_) {
+    };
+    Node(const string &key_, const int &offset_) :  offset(offset_) {
         memset(&key,0,sizeof(key));
         strcpy(key, key_.c_str());
-    }
-    string Key() const { return key; }
+    };
+    string Key() const { return key; };
     void Value( T &t) const {
         if(offset==0)return;
         fstream file;
@@ -49,9 +44,9 @@ public:
         file.seekp(offset);
         file.read(reinterpret_cast<char *>(&t), sizeof(T));
         file.close();
-    }
-    const int Offset ()const{return offset;};
-    bool operator<(const Node &rhs) const {
+    } ;
+    int Offset ()const{return offset;};
+    bool operator<(const Node &rhs) const{
         if (!strcmp(key, rhs.key)) {
             if(offset==0&&rhs.offset!=0)return true;
             if(rhs.offset==0)return false;
@@ -66,7 +61,7 @@ public:
             return vl < vr;
         }
         return strcmp(key, rhs.key) < 0;
-    }
+    } ;
     bool operator==(const Node &rhs) const {
         if (strcmp(key, rhs.key)==0) {
             T vl;T vr;
@@ -80,10 +75,10 @@ public:
             return vl == vr;
         }
         return false;
-    }
+    } ;
     bool operator!=(const Node &rhs) const {
         return !(*this == rhs);
-    }
+    };
 };
 
 //insert(k,v),delete(k,v),find(k)
@@ -109,22 +104,22 @@ public:
         blockNode t;
         t.numElements=0;
         t.nextBlock=-1;
-    }
-    ~BlockList(){}
+    };
+    ~BlockList()=default;
     bool initialize(const string& m_name,const string& d_name){
         map_name=m_name;
         data_name=d_name;
         data.initialise(data_name);
         bool res=list.initialise(map_name);
         return res;
-    }
+    };
     void swap(blockNode& lhs,int r,int j){
         data_file=data_name;
         Node<T>tmp;
         tmp=lhs.elements[r];
         lhs.elements[r]=lhs.elements[j];
         lhs.elements[j]=tmp;
-    }
+    };
     int insert(const string& key,int num){
         data_file=data_name;
         Node<T> node(key,num);
@@ -150,8 +145,7 @@ public:
         }
         list.update(it,pos);
         return num;
-    }
-
+    };
     void apart(blockNode& it){
         data_file=data_name;
         blockNode crack;
@@ -162,59 +156,7 @@ public:
         it.numElements=it.numElements/2;
         crack.nextBlock=it.nextBlock;
         it.nextBlock=list.write(crack);
-    }
-    int indexMax(){
-        return data.getIndexMax();
-    }
-    int getOffset(const string&key,T&value){
-        data_file=data_name;
-        Node<T> node(key,0);
-        blockNode it;int pos=headIndex,tmp=headIndex;
-        list.read(it,headIndex);
-        for(it;pos!=-1;tmp=pos,pos=it.nextBlock,list.read(it,pos)){
-            if(strcmp(it.elements[0].Key().c_str(),key.c_str())<0)continue;
-            else{break;}
-        }
-        pos=tmp;
-        list.read(it,pos);
-        while(true) {
-            int i=std::lower_bound(it.elements,it.elements+it.numElements,node)-it.elements;
-            for (; i < it.numElements; i++) {
-                if (strcmp(key.c_str(),it.elements[i].Key().c_str())==0) {
-                    return it.elements[i].Offset();
-                }
-            }
-            if(it.nextBlock==-1)break;
-            pos=it.nextBlock;
-            list.read(it,pos);
-            if(strcmp(it.elements[0].Key().c_str(),key.c_str())>0)break;
-        }
-        return 0;
-    }
-    void update(const string& key, T& old,T &value) {
-        data_file=data_name;
-        int ofs = data.write(old);
-        Node<T> node(key, ofs);
-        blockNode it;
-        int pos = headIndex, tmp = headIndex;
-        list.read(it, headIndex);
-        for (it; pos != -1; tmp = pos, pos = it.nextBlock, list.read(it, pos)) {
-            if (it.elements[0] < node || it.elements[0] == node)continue;
-            else { break; }
-        }
-        pos = tmp;
-        list.read(it, pos);
-        while (true) {
-            int i = std::lower_bound(it.elements, it.elements + it.numElements, node) - it.elements;
-            if (it.elements[i] == node){data.update( value,it.elements[i].Offset());return;}
-            list.update(it, pos);
-            if (it.nextBlock == -1)break;
-            pos = it.nextBlock;
-            list.read(it, pos);
-            if (node < it.elements[0])break;
-        }
-        data.Delete(ofs);
-    }
+    };
     bool Delete(const string& key,int ofs){
         bool deleted=false;
         data_file=data_name;
@@ -257,7 +199,7 @@ public:
         if(lhs.numElements+rhs.numElements>maxElements)return;
         for (int i = lhs.numElements, j = 0; j<rhs.numElements; j++, i++)lhs.elements[i] = rhs.elements[j];
         lhs.numElements+=rhs.numElements;lhs.nextBlock = rhs.nextBlock;list.Delete(rpos);
-    }
+    };
     void find(const string& key){
         data_file=data_name;
         T queue[1000];int cnt=0;
@@ -289,7 +231,7 @@ public:
                 cout<<queue[i]<<endl;
             }
         }
-    }
+    };
     void scroll(){
         data_file=data_name;
         blockNode it;int pos=headIndex;
@@ -300,40 +242,37 @@ public:
                 cout<<t<<'\n';
             }
         }
-    }
+    };
     T read(int ofs){
-
         T t;if(ofs==0)return t;
         data.read(t,ofs);return t;
-    }
-    int index(const T& t){
-        return data.find(t);
-    }
+    };
     int findOne(const string& key,T& ans){
-        data_file=data_name;
-        Node<T> node(key,0);
-        blockNode it;int pos=headIndex,tmp=headIndex;
-        list.read(it,headIndex);
-        for(it;pos!=-1;tmp=pos,pos=it.nextBlock,list.read(it,pos)){
-            if(strcmp(it.elements[0].Key().c_str(),key.c_str())<0)continue;
-            else{break;}
+        data_file = data_name;
+        Node<T> node(key, 0);
+        blockNode it;
+        int pos = headIndex, tmp = headIndex;
+        list.read(it, headIndex);
+        for (it; pos != -1; tmp = pos, pos = it.nextBlock, list.read(it, pos)) {
+            if (strcmp(it.elements[0].Key().c_str(), key.c_str()) < 0)continue;
+            else { break; }
         }
-        pos=tmp;
-
-        list.read(it,pos);
-        while (true){
-            int i=std::lower_bound(it.elements,it.elements+it.numElements,node)-it.elements;
+        pos = tmp;
+        list.read(it, pos);
+        while (true) {
+            int i = std::lower_bound(it.elements, it.elements + it.numElements, node) - it.elements;
             for (; i < it.numElements; i++) {
-                if (strcmp(key.c_str(),it.elements[i].Key().c_str())==0) {
-                    it.elements[i].Value(ans);return it.elements[i].Offset();
+                if (strcmp(key.c_str(), it.elements[i].Key().c_str()) == 0) {
+                    it.elements[i].Value(ans);
+                    return it.elements[i].Offset();
                 }
             }
-        if(it.nextBlock==-1)break;
-        pos=it.nextBlock;
-        list.read(it,pos);
-        if(strcmp(it.elements[0].Key().c_str(),key.c_str())>0)break;
-    }
+            if (it.nextBlock == -1)break;
+            pos = it.nextBlock;
+            list.read(it, pos);
+            if (strcmp(it.elements[0].Key().c_str(), key.c_str()) > 0)break;
+        }
         return 0;
     }
 };
-#endif //BOOKSTORAGE_CBP_MEMORYTEMPLATE_HPP
+#endif //BOOKSTORE_CBP_BLOCKLIST_HPP

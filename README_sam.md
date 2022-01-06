@@ -15,23 +15,21 @@
 * 通过固定每个信息的长度储存各种信息
 * 登录用户信息存内存，其他信息存外存
 * user_data文档存账户信息，user_id_map索引文档（ID->A中ID对应信息位置（一个指针））
-* book_data文档存书本信息，book_ISBN_map文档作为索引文件（ISBN->书本序号（1-base，乘信息长度后可直接访问书本信息）），book_name/author/keywrod_map索引文件（Book-Name/Author/Keyword->书本序号）
+* book_data文档存书本信息，book_ISBN_map文档作为索引文件（ISBN->书本序号（1-base，乘信息长度后可直接访问书本信息）），book_name/au.hppor/keywrod_map索引文件（Book-Name/Au.hppor/Keyword->书本序号）
 * trade_data文档存交易信息
 * log 文档存所有系统操作信息（用于生成日志）
 
 ##### 代码文件结构(仿照basic解释器)
 
 * main.cpp
-* error.h
-* token_scanner.h
+* error.hpp
+* token_scanner.hpp
 * token_scanner.cpp
-* user.h
+* user.hpp
 * user.cpp
-* login.h
-* login.cpp
-* book.h
+* book.hpp
 * book.cpp
-* log.h
+* log.hpp
 * log.cpp
 
 ##### 各个类的接口和成员说明
@@ -39,12 +37,6 @@
 * error类：用来报错
 
 * token_scanner类：处理每一行输入，返回账户/图书/日志类（类似Basic对输入的处理，但是可以不用预先编译，账户/图书/日志类直接解释编译输入指令）
-
-* login类：
-
-  * private变量为登录账户的各种信息（包括账户的信息，该账户交易的开始和结束（即他人登录或自己登出）时的time，自己的操作在日志里的始末位置，选中的图书的ISBN）
-* 修改，访问private用成员函数实现
-  * 下面的账户，图书，日志三类要引用此类
 
 * user类：
 
@@ -54,7 +46,7 @@
 
 * book类：同上
 
-* log类：同上
+* log类(也可以根据不同的日志格式写几个不同的类)：同上
 
 ##### 具体算法说明
 
@@ -67,7 +59,7 @@
 * user_data文档信息存储
 
   * 按照顺序存User-ID（30），Password（30），Priority（1），User-Name(30)
-  * 括号里是预设长度，不够加0/’  ‘（每一位都是二进制读写，1是sizeof（int）或sizeof（char））
+  * 括号里是预设长度，不够加‘\0'/’ ‘（每一位都是二进制读写，1是sizeof（int）或sizeof（.hppar））
   
 * user_id_map索引文档信息存储
 
@@ -99,7 +91,7 @@
 
   * 日志格式：成功：ID register name SUCCESS 
 
-    ​                   失败：ID register name FAIL-Name repitition
+    ​                   失败：ID register name FAIL-ID repitition
 
 * 修改密码指令
 
@@ -107,7 +99,7 @@
   
   * 日志格式：成功：ID revise password SUCCESS 
   
-    ​                   账户不存在：ID revise password FAIL-Account notfind
+    ​                   账户不存在：ID revise password FAIL-Account not found
   
     ​                   密码错误：ID revise password FAIL-Wrong password
   
@@ -117,9 +109,9 @@
 
   * 日志格式：成功：Create account SUCCESS
 
-    ​                   重名：Create account FAIL-Name repitition
+    ​                   重名：Create account FAIL-Name repetition
 
-    ​                   权限不够：Create account FAIL-Limited authority
+    ​                   权限不够：Create account FAIL-Priority limited
 
 * 删除账户
 
@@ -134,7 +126,7 @@
 
 * book_data文档信息存储
 
-  * 按照顺序储存：图书编号（每次加一），ISBN（20）,Book-Name（60）,Author（60）,Keyword（60）,Quantity（10）,Price（13）,int store(库存)
+  * 按照顺序储存：图书编号（每次加一），ISBN（20）,Book-Name（60）,Au.hppor（60）,Keyword（60）,Quantity（10）,Price（13）,int store(库存)
   
   * 其中pre，next，store固定8位（应该够的，不够再加）
   
@@ -164,7 +156,7 @@
   
   * 日志格式：成功：Sell 数量 书名 in 总价
   
-    ​                   失败：Sell 数量 书名 FAIL-Book notfind
+    ​                   失败：Sell 数量 书名 FAIL-Book not found
   
 * 选择图书指令
 

@@ -2,8 +2,8 @@
 // Created by Cristiano on 2021/12/23.
 //
 
-#ifndef BOOKSTORAGE_CBP_ERROR_HPP
-#define BOOKSTORAGE_CBP_ERROR_HPP
+#ifndef BOOKSTORE_CBP_ERROR_HPP
+#define BOOKSTORE_CBP_ERROR_HPP
 
 #include <string>
 
@@ -26,4 +26,4 @@ public:
 };
 
  void error(string msg);
-#endif //BOOKSTORAGE_CBP_ERROR_HPP
+#endif //BOOKSTORE_CBP_ERROR_HPP

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/mnt/d/book/MemoryTemplate.hpp
+/mnt/d/book/blocklist.hpp
 iostream
 -
 cstring
@@ -19,8 +19,8 @@ vector
 -
 algorithm
 -
-memory.hpp
-/mnt/d/book/memory.hpp
+memo.hpp
+/mnt/d/book/memo.hpp
 
 /mnt/d/book/book.hpp
 string
@@ -34,41 +34,51 @@ string
 
 /mnt/d/book/formula.hpp
 
+/mnt/d/book/global.hpp
+log.hpp
 /mnt/d/book/log.hpp
+user.hpp
+/mnt/d/book/user.hpp
+book.hpp
+/mnt/d/book/book.hpp
+blocklist.hpp
+/mnt/d/book/blocklist.hpp
+memo.hpp
+/mnt/d/book/memo.hpp
 
-/mnt/d/book/main.cpp
-iostream
+/mnt/d/book/log.hpp
+ostream
 -
 cstring
 -
-fstream
+iomanip
 -
-utility
+
+/mnt/d/book/memo.hpp
+fstream
 -
 vector
 -
-algorithm
--
-memory.hpp
-/mnt/d/book/memory.hpp
-MemoryTemplate.hpp
-/mnt/d/book/MemoryTemplate.hpp
-token_scanner.hpp
+
 /mnt/d/book/token_scanner.hpp
-formula.hpp
-/mnt/d/book/formula.hpp
 error.hpp
 /mnt/d/book/error.hpp
-book.hpp
-/mnt/d/book/book.hpp
+
+/mnt/d/book/user.cpp
 user.hpp
 /mnt/d/book/user.hpp
-
-/mnt/d/book/memory.hpp
-
-/mnt/d/book/token_scanner.hpp
+book.hpp
+/mnt/d/book/book.hpp
+memo.hpp
+/mnt/d/book/memo.hpp
+blocklist.hpp
+/mnt/d/book/blocklist.hpp
 error.hpp
 /mnt/d/book/error.hpp
+formula.hpp
+/mnt/d/book/formula.hpp
+global.hpp
+/mnt/d/book/global.hpp
 
 /mnt/d/book/user.hpp
 ostream
@@ -79,14 +89,14 @@ iomanip
 -
 token_scanner.hpp
 /mnt/d/book/token_scanner.hpp
-formula.hpp
-/mnt/d/book/formula.hpp
 book.hpp
 /mnt/d/book/book.hpp
 error.hpp
 /mnt/d/book/error.hpp
-memory.hpp
-/mnt/d/book/memory.hpp
+memo.hpp
+/mnt/d/book/memo.hpp
 log.hpp
 /mnt/d/book/log.hpp
+blocklist.hpp
+/mnt/d/book/blocklist.hpp
 

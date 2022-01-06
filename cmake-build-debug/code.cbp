@@ -82,13 +82,43 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/mnt/d/book/book.cpp">
+			<Option target="code"/>
+		</Unit>
+		<Unit filename="/mnt/d/book/book.hpp">
+			<Option target="code"/>
+		</Unit>
 		<Unit filename="/mnt/d/book/error.cpp">
 			<Option target="code"/>
 		</Unit>
 		<Unit filename="/mnt/d/book/error.hpp">
 			<Option target="code"/>
 		</Unit>
+		<Unit filename="/mnt/d/book/global.cpp">
+			<Option target="code"/>
+		</Unit>
+		<Unit filename="/mnt/d/book/global.hpp">
+			<Option target="code"/>
+		</Unit>
+		<Unit filename="/mnt/d/book/log.cpp">
+			<Option target="code"/>
+		</Unit>
+		<Unit filename="/mnt/d/book/log.hpp">
+			<Option target="code"/>
+		</Unit>
 		<Unit filename="/mnt/d/book/main.cpp">
+			<Option target="code"/>
+		</Unit>
+		<Unit filename="/mnt/d/book/token_scanner.cpp">
+			<Option target="code"/>
+		</Unit>
+		<Unit filename="/mnt/d/book/token_scanner.hpp">
+			<Option target="code"/>
+		</Unit>
+		<Unit filename="/mnt/d/book/user.cpp">
+			<Option target="code"/>
+		</Unit>
+		<Unit filename="/mnt/d/book/user.hpp">
 			<Option target="code"/>
 		</Unit>
 		<Unit filename="/mnt/d/book/CMakeLists.txt">

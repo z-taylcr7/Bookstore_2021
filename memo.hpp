@@ -2,13 +2,16 @@
 // Created by Cristiano on 2021/12/18.
 //
 
-#ifndef BOOKSTORAGE_CBP_MEMORY_HPP
-#define BOOKSTORAGE_CBP_MEMORY_HPP
+#ifndef BOOKSTORE_CBP_MEMORY_HPP
+#define BOOKSTORE_CBP_MEMORY_HPP
+#include <fstream>
+#include <vector>
 using namespace std;
 using std::string;
 using std::fstream;
 using std::ifstream;
 using std::ofstream;
+
 template<class T>
 class Memo{
 private:
@@ -16,7 +19,7 @@ private:
     string file_name;
     int sizeofT = sizeof(T);
     long long int indexmax=5;
-    std::vector<int>deleted;
+    vector<int>deleted;
 public:
     Memo()=default;
     ~Memo(){
@@ -24,7 +27,7 @@ public:
         file.write(reinterpret_cast<char*>(&indexmax),sizeof(int));
         file.close();
     }
-    bool initialise(string FN = "") {
+    bool initialise(string FN) {
         if (FN != "") file_name = FN;
         bool x;
         file.open(file_name);//todo:delete out
@@ -39,8 +42,8 @@ public:
         }
         file.close();
         return x;
-    }
-    int write(T &t) {//write down ,return index
+    };
+    int write(T &t){//write down ,return index
         file.open(file_name);
         if(!deleted.empty()){
             int dex=deleted.back();
@@ -55,54 +58,28 @@ public:
         file.write(reinterpret_cast<char *>(&t), sizeofT);
         file.close();
         return indexmax;
-    }
-    void update(T &t, const int index) {
+    };
+    void update(T &t, int index) {
         file.open(file_name);
         file.seekp(index,ios::beg);
         file.write(reinterpret_cast<char *>(&t), sizeofT);
         file.close();
-    }
-    void updateData(T &t, T&n) {
-        file.open(file_name);
-        int d=indexmax;
-        while(d>5){
-            T tmp;
-            read(tmp,d);
-            if(tmp==t)
-            {
-                file.seekp(d);
-                file.write(reinterpret_cast<char *>(&n), sizeofT);
-            }
-            d-=sizeofT;
-        }
+    };
 
-        file.close();
-    }
-    void read(T &t, const int index) {
+    void read(T &t, int index){
         file.open(file_name);
         file.seekp(index);
         file.read(reinterpret_cast<char *>(&t), sizeofT);
         file.close();
-    }
-    int find(const T &t){
-        file.open(file_name);
-        int d=indexmax;
-        while(d>5){
-            T tmp;
-            read(tmp,d);
-            if(tmp==t)return d;
-            d-=sizeofT;
-        }
-        return 0;
-    }
+    };
 
-    long long int getIndexMax() const {
+    long long int getIndexMax() const{
         return indexmax;
-    }
+    };
 
-    void Delete(int index) {
+    void Delete(int index){
         deleted.push_back(index);
-    }
+    };
 };
 
-#endif //BOOKSTORAGE_CBP_MEMORY_HPP
+#endif //BOOKSTORE_CBP_MEMORY_HPP

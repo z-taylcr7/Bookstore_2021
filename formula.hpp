@@ -4,7 +4,6 @@
 
 #ifndef MAIN_CPP_FORMULA_HPP
 #define MAIN_CPP_FORMULA_HPP
-
 bool isID(const string& id){
     int l=id.length();
     if(l>30)return false;

@@ -83,19 +83,94 @@ CMakeFiles/code.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/book/main.cpp -o CMakeFiles/code.dir/main.cpp.s
 
+CMakeFiles/code.dir/book.cpp.o: CMakeFiles/code.dir/flags.make
+CMakeFiles/code.dir/book.cpp.o: ../book.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/book/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/code.dir/book.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/code.dir/book.cpp.o -c /mnt/d/book/book.cpp
+
+CMakeFiles/code.dir/book.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/code.dir/book.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/book/book.cpp > CMakeFiles/code.dir/book.cpp.i
+
+CMakeFiles/code.dir/book.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/book.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/book/book.cpp -o CMakeFiles/code.dir/book.cpp.s
+
+CMakeFiles/code.dir/user.cpp.o: CMakeFiles/code.dir/flags.make
+CMakeFiles/code.dir/user.cpp.o: ../user.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/book/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/code.dir/user.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/code.dir/user.cpp.o -c /mnt/d/book/user.cpp
+
+CMakeFiles/code.dir/user.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/code.dir/user.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/book/user.cpp > CMakeFiles/code.dir/user.cpp.i
+
+CMakeFiles/code.dir/user.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/user.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/book/user.cpp -o CMakeFiles/code.dir/user.cpp.s
+
+CMakeFiles/code.dir/token_scanner.cpp.o: CMakeFiles/code.dir/flags.make
+CMakeFiles/code.dir/token_scanner.cpp.o: ../token_scanner.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/book/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/code.dir/token_scanner.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/code.dir/token_scanner.cpp.o -c /mnt/d/book/token_scanner.cpp
+
+CMakeFiles/code.dir/token_scanner.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/code.dir/token_scanner.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/book/token_scanner.cpp > CMakeFiles/code.dir/token_scanner.cpp.i
+
+CMakeFiles/code.dir/token_scanner.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/token_scanner.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/book/token_scanner.cpp -o CMakeFiles/code.dir/token_scanner.cpp.s
+
+CMakeFiles/code.dir/global.cpp.o: CMakeFiles/code.dir/flags.make
+CMakeFiles/code.dir/global.cpp.o: ../global.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/book/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/code.dir/global.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/code.dir/global.cpp.o -c /mnt/d/book/global.cpp
+
+CMakeFiles/code.dir/global.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/code.dir/global.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/book/global.cpp > CMakeFiles/code.dir/global.cpp.i
+
+CMakeFiles/code.dir/global.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/global.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/book/global.cpp -o CMakeFiles/code.dir/global.cpp.s
+
+CMakeFiles/code.dir/log.cpp.o: CMakeFiles/code.dir/flags.make
+CMakeFiles/code.dir/log.cpp.o: ../log.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/book/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/code.dir/log.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/code.dir/log.cpp.o -c /mnt/d/book/log.cpp
+
+CMakeFiles/code.dir/log.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/code.dir/log.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/book/log.cpp > CMakeFiles/code.dir/log.cpp.i
+
+CMakeFiles/code.dir/log.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/log.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/book/log.cpp -o CMakeFiles/code.dir/log.cpp.s
+
 # Object files for target code
 code_OBJECTS = \
 "CMakeFiles/code.dir/error.cpp.o" \
-"CMakeFiles/code.dir/main.cpp.o"
+"CMakeFiles/code.dir/main.cpp.o" \
+"CMakeFiles/code.dir/book.cpp.o" \
+"CMakeFiles/code.dir/user.cpp.o" \
+"CMakeFiles/code.dir/token_scanner.cpp.o" \
+"CMakeFiles/code.dir/global.cpp.o" \
+"CMakeFiles/code.dir/log.cpp.o"
 
 # External object files for target code
 code_EXTERNAL_OBJECTS =
 
 code: CMakeFiles/code.dir/error.cpp.o
 code: CMakeFiles/code.dir/main.cpp.o
+code: CMakeFiles/code.dir/book.cpp.o
+code: CMakeFiles/code.dir/user.cpp.o
+code: CMakeFiles/code.dir/token_scanner.cpp.o
+code: CMakeFiles/code.dir/global.cpp.o
+code: CMakeFiles/code.dir/log.cpp.o
 code: CMakeFiles/code.dir/build.make
 code: CMakeFiles/code.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/d/book/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable code"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/d/book/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable code"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/code.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -123,6 +123,33 @@ code/fast:
 	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/build
 .PHONY : code/fast
 
+book.o: book.cpp.o
+
+.PHONY : book.o
+
+# target to build an object file
+book.cpp.o:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/book.cpp.o
+.PHONY : book.cpp.o
+
+book.i: book.cpp.i
+
+.PHONY : book.i
+
+# target to preprocess a source file
+book.cpp.i:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/book.cpp.i
+.PHONY : book.cpp.i
+
+book.s: book.cpp.s
+
+.PHONY : book.s
+
+# target to generate assembly for a file
+book.cpp.s:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/book.cpp.s
+.PHONY : book.cpp.s
+
 error.o: error.cpp.o
 
 .PHONY : error.o
@@ -149,6 +176,60 @@ error.s: error.cpp.s
 error.cpp.s:
 	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/error.cpp.s
 .PHONY : error.cpp.s
+
+global.o: global.cpp.o
+
+.PHONY : global.o
+
+# target to build an object file
+global.cpp.o:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/global.cpp.o
+.PHONY : global.cpp.o
+
+global.i: global.cpp.i
+
+.PHONY : global.i
+
+# target to preprocess a source file
+global.cpp.i:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/global.cpp.i
+.PHONY : global.cpp.i
+
+global.s: global.cpp.s
+
+.PHONY : global.s
+
+# target to generate assembly for a file
+global.cpp.s:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/global.cpp.s
+.PHONY : global.cpp.s
+
+log.o: log.cpp.o
+
+.PHONY : log.o
+
+# target to build an object file
+log.cpp.o:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/log.cpp.o
+.PHONY : log.cpp.o
+
+log.i: log.cpp.i
+
+.PHONY : log.i
+
+# target to preprocess a source file
+log.cpp.i:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/log.cpp.i
+.PHONY : log.cpp.i
+
+log.s: log.cpp.s
+
+.PHONY : log.s
+
+# target to generate assembly for a file
+log.cpp.s:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/log.cpp.s
+.PHONY : log.cpp.s
 
 main.o: main.cpp.o
 
@@ -177,6 +258,60 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+token_scanner.o: token_scanner.cpp.o
+
+.PHONY : token_scanner.o
+
+# target to build an object file
+token_scanner.cpp.o:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/token_scanner.cpp.o
+.PHONY : token_scanner.cpp.o
+
+token_scanner.i: token_scanner.cpp.i
+
+.PHONY : token_scanner.i
+
+# target to preprocess a source file
+token_scanner.cpp.i:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/token_scanner.cpp.i
+.PHONY : token_scanner.cpp.i
+
+token_scanner.s: token_scanner.cpp.s
+
+.PHONY : token_scanner.s
+
+# target to generate assembly for a file
+token_scanner.cpp.s:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/token_scanner.cpp.s
+.PHONY : token_scanner.cpp.s
+
+user.o: user.cpp.o
+
+.PHONY : user.o
+
+# target to build an object file
+user.cpp.o:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/user.cpp.o
+.PHONY : user.cpp.o
+
+user.i: user.cpp.i
+
+.PHONY : user.i
+
+# target to preprocess a source file
+user.cpp.i:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/user.cpp.i
+.PHONY : user.cpp.i
+
+user.s: user.cpp.s
+
+.PHONY : user.s
+
+# target to generate assembly for a file
+user.cpp.s:
+	$(MAKE) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/user.cpp.s
+.PHONY : user.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -186,12 +321,27 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... code"
+	@echo "... book.o"
+	@echo "... book.i"
+	@echo "... book.s"
 	@echo "... error.o"
 	@echo "... error.i"
 	@echo "... error.s"
+	@echo "... global.o"
+	@echo "... global.i"
+	@echo "... global.s"
+	@echo "... log.o"
+	@echo "... log.i"
+	@echo "... log.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... token_scanner.o"
+	@echo "... token_scanner.i"
+	@echo "... token_scanner.s"
+	@echo "... user.o"
+	@echo "... user.i"
+	@echo "... user.s"
 .PHONY : help
 
 

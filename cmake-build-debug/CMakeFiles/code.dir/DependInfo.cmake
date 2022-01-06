@@ -4,8 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/mnt/d/book/book.cpp" "/mnt/d/book/cmake-build-debug/CMakeFiles/code.dir/book.cpp.o"
   "/mnt/d/book/error.cpp" "/mnt/d/book/cmake-build-debug/CMakeFiles/code.dir/error.cpp.o"
+  "/mnt/d/book/global.cpp" "/mnt/d/book/cmake-build-debug/CMakeFiles/code.dir/global.cpp.o"
+  "/mnt/d/book/log.cpp" "/mnt/d/book/cmake-build-debug/CMakeFiles/code.dir/log.cpp.o"
   "/mnt/d/book/main.cpp" "/mnt/d/book/cmake-build-debug/CMakeFiles/code.dir/main.cpp.o"
+  "/mnt/d/book/token_scanner.cpp" "/mnt/d/book/cmake-build-debug/CMakeFiles/code.dir/token_scanner.cpp.o"
+  "/mnt/d/book/user.cpp" "/mnt/d/book/cmake-build-debug/CMakeFiles/code.dir/user.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
