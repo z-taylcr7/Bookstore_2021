@@ -87,12 +87,14 @@ void user::su(TokenScanner& s) const{
     }
     Line x(currentUser,"log in.");
     diary.write(x);
+    cout<<"Welcome back, "<<currentUser<<'!'<<endl;
 }
 void user::logout(TokenScanner& s) const {
     if(s.hasMoreToken())error("token too much!");
     if(log_stack.empty())error("no account!");
     if(pr=='0')error("beyond your priority");
     log_stack.pop_back();
+    cout<<"bye-bye, "<<currentUser<<'!'<<endl;
     Line x(currentUser,"log out.");
     diary.write(x);
     if(log_stack.empty()){
@@ -161,7 +163,11 @@ void user::passwd(TokenScanner& s) const{
     }
 }
 void user::useradd(TokenScanner& s) const {
-    if(pr=='0'||pr=='1')error("you can't even do this!");
+    if(pr=='0'||pr=='1'){
+        Line st(currentUser,"Useradd FAIL-Priority limited.");
+        diary.write(st);
+        error("you can't even do this!");
+    }
     string _id=s.nextToken();
     string _pw=s.nextToken();
     string _pr=s.nextToken();
@@ -178,15 +184,15 @@ void user::useradd(TokenScanner& s) const {
         diary.write(x);
         error("account has been registered!");//todo:re register ;
     }
-    Line x(currentUser,"Create account SUCCESS:"+user1.pr+')'+_id);
+    Line x(currentUser,"Create account SUCCESS:"+_id);
     diary.write(x);
     int u=userList.data.write(user1);
     userList.insert(_id,u);
 }
 void user::Delete(TokenScanner& s) const {
     if(pr!='7'){
-        Line x(currentUser,"Delete account FAIL-Priority limited.");
-        diary.write(x);
+        Line st(currentUser,"Delete account FAIL-Priority limited.");
+        diary.write(st);
         error("only superUser can delete an account.");
     }
     string _id=s.nextToken();
@@ -274,6 +280,8 @@ void user::show(TokenScanner &s) {
 
 void user::select(TokenScanner &s) {
     if(pr=='0'||pr=='1'){
+        Line st(currentUser,"Select book FAIL-Priority limited.");
+        diary.write(st);
         error("you don't have the priority. Sign in first if you wanna select.");
     }
     string Isbn=s.nextToken();
@@ -297,8 +305,16 @@ void user::select(TokenScanner &s) {
 }
 
 void user::modify(TokenScanner &s) const{
-    if(pr=='0'||pr=='1'){error("you don't have the priority. Sign in first if you want to modify.");return;}
-    if(!selected)error("please select a book first!");
+    if(pr=='0'||pr=='1'){
+        Line st(currentUser,"Modify book FAIL-Priority limited.");
+        diary.write(st);
+        error("you don't have the priority. Sign in first if you want to modify.");return;
+    }
+    if(!selected){
+        Line st(currentUser,"Modify book FAIL-No book selected.");
+        diary.write(st);
+        error("please select a book first!");
+    }
     if(log_stack.back().second==0)error(" 00");
     book mod;
     library.read(mod,log_stack.back().second);
@@ -318,8 +334,15 @@ void user::modify(TokenScanner &s) const{
         }
         if(i==len)error("token required.");
         if(type=="ISBN"){
-            if(isbn)error("0");
-            if(token=="")error("0-0");
+            if(isbn){
+                Line st(currentUser,"Modify book FAIL-Additional parameter repeated");
+                diary.write(st);
+                error("0");
+            }
+            if(token==""){
+                Line st(currentUser,"Modify book FAIL-no Additional parameter");
+                diary.write(st);error("0-0");
+            }
             if(!isISBN(token))error("wrong isbn");
             string Isbn=token;
             book book1(Isbn);
@@ -328,32 +351,59 @@ void user::modify(TokenScanner &s) const{
             mod.changeIsbn(token);
         }
         if(type=="name") {
-            if(n)error("name repeat");
+            if(n){
+                        Line st(currentUser,"Modify book FAIL-Additional parameter repeated");
+                        diary.write(st);
+                        error("name repeat");
+            }
             token=token.substr(1,token.length()-2);
-            if(token=="")error("0-0");
+            if(token==""){
+                Line st(currentUser,"Modify book FAIL-no Additional parameter");
+                diary.write(st);error("0-0");
+            }
             if(!isBookName(token))error("wrong name");
             n=true;
             mod.changeBookName(token);
         }
         if(type=="author") {
             token=token.substr(1,token.length()-2);
-            if(a)error("author repeat");
-            if(token=="")error("0-0");
+            if(a){
+                Line st(currentUser,"Modify book FAIL-Additional parameter repeated");
+                diary.write(st);error("author repeat");
+            }
+            if(token==""){
+                Line st(currentUser,"Modify book FAIL-no Additional parameter");
+                diary.write(st);error("0-0");
+            }
             if(!isBookName(token))error("wrong author");
             a=true;
             mod.changeAuthor(token);
         }
         if(type=="keyword"){
-            if(k)error("no more keyword");
+            if(k){
+                Line st(currentUser,"Modify book FAIL-Additional parameter repeated");
+                diary.write(st);error("no more keyword");
+            }
             token=token.substr(1,token.length()-2);
-            if(token=="")error("0-0");
+            if(token==""){
+                Line st(currentUser,"Modify book FAIL-no Additional parameter");
+                diary.write(st);
+                error("0-0");
+            }
             if(!isBookName(token))error("wrong keyword");
             k=true;
             mod.changeKeyword(token);
         }
         if(type=="price"){
-            if(p)error("no price anymore.");
-            if(token=="")error("0-0");
+            if(p){
+                Line st(currentUser,"Modify book FAIL-Additional parameter repeated");
+                diary.write(st);error("no price anymore.");
+            }
+            if(token==""){
+                Line st(currentUser,"Modify book FAIL-no Additional parameter");
+                diary.write(st);
+                error("0-0");
+            }
             if(!isPrice(token))error("wrong price");
             p=true;
             mod.changePrice(token);
@@ -397,8 +447,16 @@ void user::buy(TokenScanner &s) const {
 }
 
 void user::import(TokenScanner &s) const {
-    if(pr=='0'||pr=='1')error("you don't have the priority. Sign in first if you want to import.");
-    if(!selected)error("select a book first.");
+    if(pr=='0'||pr=='1'){
+        Line st(currentUser,"import book FAIL-Priority limited.");
+        diary.write(st);
+        error("you don't have the priority. Sign in first if you want to import.");
+    }
+    if(!selected){
+        Line st(currentUser,"import book FAIL-No book selected.");
+        diary.write(st);
+        error("select a book first.");
+    }
     int quantity= toNumber(s.nextToken());
     if(quantity>2147483647)error("invalid amount");
     currentBook.addAmount(quantity);
@@ -512,8 +570,15 @@ void user::reportFinance() {
         d-=sizeof(log);
     }
     cout<<"total:";
-    showFinance("all");
-    cout<<endl;
+    d=finance.getIndexMax();
+    trade sum(0,0);
+        while (d > 5){
+            trade tmp;
+            finance.read(tmp, d);
+            sum += tmp;
+            d -= sizeof(trade);
+        }
+        cout<<fixed<<setprecision(2)<<sum<<'\n';
 }
 
 void user::reportEmployee() {

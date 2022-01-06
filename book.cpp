@@ -23,12 +23,18 @@ void book::toKeyword(const string &t) {
             strcpy(keyword[cnt++],t.substr(j,i-j).c_str());j=i+1;
         }
         for(int i=0;i<cnt-1;i++){
-            if(strcmp(keyword[cnt-1],keyword[i])==0)error("repear keyword");
+            if(strcmp(keyword[cnt-1],keyword[i])==0){
+                Line st(currentUser,"Edit book FAIL-repeated keyword");
+                diary.write(st);error("repeat keyword");
+            }
         }
     }
     strcpy(keyword[cnt++],t.substr(j).c_str());
     for(int i=0;i<cnt-1;i++){
-        if(strcmp(keyword[cnt-1],keyword[i])==0)error("repear keyword");
+        if(strcmp(keyword[cnt-1],keyword[i])==0){
+            Line st(currentUser,"Edit book FAIL-repeated keyword");
+            diary.write(st);error("repeat keyword");
+        }
     }
     keys=cnt;
 }

@@ -17,7 +17,8 @@
 * user_data文档存账户信息，user_id_map索引文档（ID->A中ID对应信息位置（一个指针））
 * book_data文档存书本信息，book_ISBN_map文档作为索引文件（ISBN->书本序号（1-base，乘信息长度后可直接访问书本信息）），book_name/au.hppor/keywrod_map索引文件（Book-Name/Au.hppor/Keyword->书本序号）
 * trade_data文档存交易信息
-* log 文档存所有系统操作信息（用于生成日志）
+* transfer_data存财报信息
+* log_data 文档存所有系统操作信息（用于生成日志）
 
 ##### 代码文件结构(仿照basic解释器)
 
@@ -75,17 +76,11 @@
 
 * 注销指令
 
-  * 记登录账户trade_data和log的结束位置
-
   * 删除最后一个登录账户的信息
 
-  * 记录新登录账户交易和日志的起始位置
+  * 日志格式：ID log out 
 
-  * 日志格式：成功：ID log out SUCCESS
-
-    ​                   失败：ID log out FAIL-No login Account 
-
-* 注册指令
+* 注册指令                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 
   * 遍历user_data文件里ID，不重复就在文件末尾加上一个新账户信息
 
@@ -109,7 +104,7 @@
 
   * 日志格式：成功：Create account SUCCESS
 
-    ​                   重名：Create account FAIL-Name repetition
+    ​                   重名：Create account FAIL-ID repetition
 
     ​                   权限不够：Create account FAIL-Priority limited
 
@@ -119,16 +114,16 @@
   
   * 日志格式：成功：Delete account SUCCESS
   
-    ​                   账户不存在：Delete account FAIL-Account notfind
+    ​                   账户不存在：Delete account FAIL-Account not found
   
     ​                   已登录：Delete account FAIL-Already logged in
 ######     图书系统
 
 * book_data文档信息存储
 
-  * 按照顺序储存：图书编号（每次加一），ISBN（20）,Book-Name（60）,Au.hppor（60）,Keyword（60）,Quantity（10）,Price（13）,int store(库存)
+  * 按照顺序储存：图书编号（每次加一），ISBN（20）,Book-Name（60）,Author（60）,Keyword（60）,Quantity（10）,Price（13）,int quantity(库存)
   
-  * 其中pre，next，store固定8位（应该够的，不够再加）
+  * 其中pre，next，quantity固定8位（应该够的，不够再加）
   
 * book_ISBN_map索引文档信息存储
 
@@ -148,13 +143,11 @@
 
 * 购买图书指令
 
-  * 遍历查找ISBN，得到price，修改store
+  * 遍历查找ISBN，得到price，修改quantity
   
   * 在trade_data文档末记录此次交易的信息
   
-  * time加一
-  
-  * 日志格式：成功：Sell 数量 书名 in 总价
+  * 日志格式：成功：ID has bought 数量 * 书名 in 总价
   
     ​                   失败：Sell 数量 书名 FAIL-Book not found
   
@@ -170,9 +163,9 @@
 
   * 按要求修改文件中对应书本的信息，并修改选中的图书
   
-  * 日志格式：成功：登录ID change （书名‘s type/书名） from a to b（若未修改书名用前者）
+  * 日志格式：成功：登录ID has modified ISBN（书名） 取老的信息，如果没书名就留空
   
-    ​                   失败：登录ID change FAIL-No book selected(未选中图书)/Aadditional parameter repeated（重复附加参数）/No additional parameter（附加参数为空）/Keyword repeated(keyword包含重复信息段)
+    ​                   失败：登录ID Modify book FAIL-No book selected(未选中图书)/Additional parameter repeated（重复附加参数）/No additional parameter（附加参数为空）/Keyword repeated(keyword包含重复信息段)
   
 * 图书进货指令
 
@@ -180,9 +173,7 @@
   
   * 在trade_data文档末记录此次交易的信息
   
-  * time加一
-  
-  * 日志格式：成功：Import 数量 书名 in 总价
+  * 日志格式：成功：登录ID has imported 数量 * 书名 in 总价
   
     ​                   失败：Import FAIL-No book selected
 
@@ -196,25 +187,27 @@
 
 * 生成员工操作记录指令
 
-  * 按照该员工账户的交易始末信息依次输出交易信息，格式为：
+  * 按照该员工账户的交易始末信息依次输出操作信息，格式为：
 
-    import/buy 图书名字 单价 本数 交易总金额
+    员工权限）员工ID 上文规定的日志标准
 
 * 财务记录查询指令
 
-  * 输出book_data文档中time后每次交易的交易金额
+  * 输出book_data文档中time后每次交易的交易金额之和
 
 * 生成财务记录报表指令
 
   * 输出所有book_data文档所有交易，格式为：
 
-    import/buy 图书名字 单价 本数 交易总金额 此次交易后总盈亏（从0开始，buy盈import亏）
+    用户权限）用户ID has imported/bought 图书名字*本数 交易总利润 
+    
+    全部交易总盈亏（从0开始，buy盈import亏）
 
 * 生成全体员工工作情况报表指令
 
-  * 输出所有交易，格式如下：
+  * 输出所有员工操作，格式如下：
 
-    交易账户ID import/buy 图书名字 单价 本数 交易总金额 
+    账户权限）账户ID 上文规定的日志格式
 
 * 生成日志指令
 
