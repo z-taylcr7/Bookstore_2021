@@ -148,5 +148,6 @@ const char *book::getIsbn() const {
 }
 
 const char *book::getBookName() const {
+    if(book_name=="")return"Anonymous";
     return book_name;
 }

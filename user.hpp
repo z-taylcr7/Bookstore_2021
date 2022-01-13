@@ -22,6 +22,8 @@ class user{
 private:
     char id[32]={' '};
     char password[32]={' '};
+    char secProblem[32]={' '};
+    char secAnswer[32]={' '};
     char name[32]={' '} ;
     char pr='0';
 public:
@@ -33,36 +35,36 @@ public:
 
     user(const string& _id,const string& _password,const string& _name,const string&_pr);
 
-    void allocate(TokenScanner& s);
+    void allocate(int cmd);
 
-    void su(TokenScanner& s) const;
+    void su() const;
 
-    void logout(TokenScanner& s) const;
+    void logout() const;
 
-    void register_account(TokenScanner& s);
+    void register_account();
 
-    void passwd(TokenScanner& s) const;
+    void passwd() const;
 
-    void useradd(TokenScanner& s) const;
+    void useradd() const;
 
-    void Delete(TokenScanner& s) const;
+    void Delete() const;
 
     //******************BOOKS***************//
 
-    void show(TokenScanner& s);
+    void show();
 
-    void select(TokenScanner& s);
+    void select();
 
-    void modify(TokenScanner& s) const;
+    void modify() const;
 
-    void buy(TokenScanner& s) const;
+    void buy() const;
 
-    void import(TokenScanner &s) const;
+    void import() const;
 
     //*********diaries***************//
-    void showFinance(const string& times);
+    void showFinance(int times);
 
-    void Report(TokenScanner& s);
+    void Report();
 
     void reportMyself();
 
@@ -70,7 +72,7 @@ public:
 
     void reportEmployee();
 
-    void Log(TokenScanner &s)const ;
+    void Log()const ;
 
     //**********operators*****************//
     friend ostream &operator<<(ostream &os, const user &user);

@@ -14,6 +14,10 @@ user::user(){
     string _id;
     string _password;
     string _name;
+    string _ans;
+    string _pro="null";
+    strcpy(secAnswer,_ans.c_str());
+    strcpy(secProblem,_pro.c_str());
     strcpy(id,_id.c_str());
     strcpy(password,_password.c_str());
     strcpy(name,_name.c_str());
@@ -23,6 +27,10 @@ user::user(int x){
     string _id;
     string _password;
     string _name;
+    string _ans;
+    string _pro="null";
+    strcpy(secAnswer,_ans.c_str());
+    strcpy(secProblem,_pro.c_str());
     strcpy(id,_id.c_str());
     strcpy(password,_password.c_str());
     strcpy(name,_name.c_str());
@@ -32,41 +40,45 @@ user::user(const string& _id,const string& _password,const string& _name,const s
         error("input error!");
     }
     pr=_pr[0];
+    string _ans;
+    string _pro="null";
+    strcpy(secAnswer,_ans.c_str());
+    strcpy(secProblem,_pro.c_str());
     strcpy(id,_id.c_str());
     strcpy(password,_password.c_str());
     strcpy(name,_name.c_str());
 }
 user::user(const user&obj){
+    strcpy(secAnswer,obj.secAnswer);
+    strcpy(secProblem,obj.secProblem);
     strcpy(id,obj.id);
     strcpy(name,obj.name);
     strcpy(password,obj.password);
     pr=obj.pr;
 }
-void user::allocate(TokenScanner& s){
-    string cmd;
-    cmd=s.firstToken();
-    if(cmd=="su"){su(s);return;}
-    if(cmd=="logout"){logout(s);return;}
-    if(cmd=="register"){register_account(s);return;}
-    if(cmd=="passwd"){passwd(s);return;}
-    if(cmd=="useradd"){useradd(s);return;}
-    if(cmd=="delete"){Delete(s);return;}
-    if(cmd=="show"){show(s);return;}
-    if(cmd=="buy"){buy(s);return;}
-    if(cmd=="import"){import(s);return;}
-    if(cmd=="select"){select(s);return;}
-    if(cmd=="modify"){modify(s);return;}
-    if(cmd=="log"){Log(s);return;}
-    if(cmd=="report"){Report(s);return;}
+void user::allocate(int cmd){
+    if(cmd==1){su();return;}
+    if(cmd==2){logout();return;}
+    if(cmd==3){register_account();return;}
+    if(cmd==4){passwd();return;}
+    if(cmd==5){useradd();return;}
+    if(cmd==6){Delete();return;}
+    if(cmd==7){show();return;}
+    if(cmd==8){buy();return;}
+    if(cmd==9){import();return;}
+    if(cmd==10){select();return;}
+    if(cmd==11){modify();return;}
+    if(cmd==12){Log();return;}
+    if(cmd==13){Report();return;}
     error("no command found!");
 }
-void user::su(TokenScanner& s) const{
+void user::su() const{
     user user1;
-    if(int x=userList.findOne(s.nextToken(),user1)) {
+    string token;
+    cout<<"input id";cin>>token;
+    if(int x=userList.findOne(token,user1)) {
         if (pr <= user1.pr) {
-            if(!s.hasMoreToken())error("password required!");
-            string st = s.nextToken();
-            if(s.hasMoreToken())error("token too much!");
+            string st;cout<<"input password";cin>>st;
             if (strcmp(st.c_str(), user1.password)!=0) {
                 error("wrong password!");//todo error：password error
             }
@@ -89,8 +101,7 @@ void user::su(TokenScanner& s) const{
     diary.write(x);
     cout<<"Welcome back, "<<currentUser<<'!'<<endl;
 }
-void user::logout(TokenScanner& s) const {
-    if(s.hasMoreToken())error("token too much!");
+void user::logout() const {
     if(log_stack.empty())error("no account!");
     if(pr=='0')error("beyond your priority");
     log_stack.pop_back();
@@ -108,11 +119,13 @@ void user::logout(TokenScanner& s) const {
     library.read(currentBook,currentOffset);
     selected=(log_stack.back().second!=0);
 }
-void user::register_account(TokenScanner& s){
-    string _id=s.nextToken();
-    string _pw=s.nextToken();
-    string _name=s.nextToken();
-    if(s.hasMoreToken())error("token too much!");
+void user::register_account(){
+    string _id;
+    cout<<"input id";cin>>_id;
+    string _pw;
+    cout<<"input _pw";cin>>_pw;
+    string _name;
+    cout<<"input _pw";cin>>_pw;
     user user1(_id,_pw,_name,"1");
     if(userList.findOne(_id,user1)){
         error("account has been registered!");//todo:reRegister error
@@ -124,15 +137,18 @@ void user::register_account(TokenScanner& s){
         Line y(currentUser,"register "+_name+" SUCCESS.");
         diary.write(y);
     }
+    cout<<"SUCCESS."<<endl;
 }
-void user::passwd(TokenScanner& s) const{
+void user::passwd() const{
     if(pr=='0')error("please create an account!");
     if(pr=='7'){
-        user user1;
-        if(int of=userList.findOne(s.nextToken(),user1)){
-            string pw=s.nextToken();
-            if(!isPassword(pw))error("invalid password");
-            strcpy(user1.password,pw.c_str());
+        user user1;string _id;
+        cout<<"input id";cin>>_id;
+        if(int of=userList.findOne(_id,user1)){
+            string _pw;
+            cout<<"input _password";cin>>_pw;
+            if(!isPassword(_pw))error("invalid password");
+            strcpy(user1.password,_pw.c_str());
             userList.data.update(user1,of);
             Line x(currentUser,"revise password SUCCESS");
             diary.write(x);
@@ -142,16 +158,20 @@ void user::passwd(TokenScanner& s) const{
             error("account not found:");//todo:cannot find user error
         }
     }else{
-        user user1;
-        if(int of=userList.findOne(s.nextToken(),user1)){
-            if(strcmp(s.nextToken().c_str(),user1.password)!=0){
+        user user1;string _id;
+        cout<<"input id";cin>>_id;
+        if(int of=userList.findOne(_id,user1)){
+            string _pw;
+            cout<<"input old password";cin>>_pw;
+            if(!isPassword(_pw))error("invalid password");
+            if(strcmp(_pw.c_str(),user1.password)!=0){
                 Line x(currentUser,"revise password FAIL-Wrong password.");
                 diary.write(x);
                 error("wrong password!"); //todo:password error
             }
-            string pw=s.nextToken();
-            if(!isPassword(pw))error("invalid password");
-            strcpy(user1.password,pw.c_str());
+            cout<<"input new _password";cin>>_pw;
+            if(!isPassword(_pw))error("invalid password");
+            strcpy(user1.password,_pw.c_str());
             userList.data.update(user1,of);
             Line x(currentUser,"revise password SUCCESS");
             diary.write(x);
@@ -162,17 +182,20 @@ void user::passwd(TokenScanner& s) const{
         }
     }
 }
-void user::useradd(TokenScanner& s) const {
+void user::useradd() const {
     if(pr=='0'||pr=='1'){
         Line st(currentUser,"Useradd FAIL-Priority limited.");
         diary.write(st);
         error("you can't even do this!");
     }
-    string _id=s.nextToken();
-    string _pw=s.nextToken();
-    string _pr=s.nextToken();
-    string _name=s.nextToken();
-    if(s.hasMoreToken())error("token too much!");
+    string _id;
+    cout<<"input id";cin>>_id;
+    string _pw;
+    cout<<"input _pw";cin>>_pw;
+    string _name;
+    cout<<"input _pw";cin>>_pw;
+    string _pr;
+    cout<<"input _pr";cin>>_pr;
     user user1(_id,_pw,_name,_pr);
     if(_pr[0]>pr||_pr[0]==pr){
         Line x(currentUser,"Create account FAIL-Priority limited.");
@@ -189,15 +212,16 @@ void user::useradd(TokenScanner& s) const {
     int u=userList.data.write(user1);
     userList.insert(_id,u);
 }
-void user::Delete(TokenScanner& s) const {
+void user::Delete() const {
     if(pr!='7'){
         Line st(currentUser,"Delete account FAIL-Priority limited.");
         diary.write(st);
         error("only superUser can delete an account.");
     }
-    string _id=s.nextToken();
+
+    string _id;
+    cout<<"input id";cin>>_id;
     if(!isID(_id))error("invalid ID");
-    if(s.hasMoreToken())error("token too much!");
     user tmp;
     int of=userList.findOne(_id,tmp);
     if(!of){
@@ -231,60 +255,53 @@ user &user::operator=(const user &obj) {
     return *this;
 }
 
-void user::show(TokenScanner &s) {
+void user::show() {
     if(pr=='0')error("you don't have the priority. Sign in first");
-    if(!s.hasMoreToken()){bookList_ISBN.scroll();return;}
-    string t=s.nextToken();
-    if(t=="finance"){
-        if(s.hasMoreToken())showFinance(s.nextToken());
-        else showFinance("all");
+    cout<<"input show type.\n0.show finance\n1.all books\n2.ISBN\n3.name\n4.author\n5.keyword\n";
+    int cmd;cin>>cmd;
+    if(cmd==1){bookList_ISBN.scroll();return;}
+    if(cmd==0) {
+        cout << "input times.Please input -1 to show all." << endl;
+        int times;
+        cin >> times;
+        showFinance(times);
         return;
     }
-    string type;
     string token;
-    int len=t.length();int i=0;
-    while(i<len){
-        if(t[i]=='='){
-            type=t.substr(0,i);
-            token=t.substr(i+1);
-            break;
-        }
-        i++;
-    }
-    if(token.length()==0)error("no token");
-    if(i==len)error("token required.");
-    if(type[0]!='-')error("formula error'-'");
-    type=type.substr(1);
-    if(type=="ISBN"){
+    if(cmd==2){
+        cout<<"input ISBN";cin>>token;
         if(!isISBN(token))error("wrong ISBN");
         bookList_ISBN.find(token);return;
     }
-    if(token[0]!='"'||token[token.length()-1]!='"')error("formula error");
-    token=token.substr(1,token.length()-2);
-    if(token.length()==0)error("no token");
-    if(type=="name"){
+    if(cmd==3){
+
+        cout<<"input name";cin>>token;
         if(!isBookName(token))error("wrong book name");
         bookList_book_name.find(token);
     }
-    if(type=="author"){
+    if(cmd==4){
+        cout<<"input author";cin>>token;
         if(!isBookName(token))error("wrong author");
         bookList_author.find(token);
     }
-    if(type=="keyword"){
+    if(cmd==5){
+
+        cout<<"input keyword";cin>>token;
         int l=token.length();int j=0;
         if(l>60)error("wrong keyword");
-        while(j<l){if(t[j]=='|')error("only one keyword is required.");j++;}
+        while(j<l){if(token[j]=='|')error("only one keyword is required.");j++;}
         bookList_keyword.find(token);
     }
 }
 
-void user::select(TokenScanner &s) {
+void user::select() {
     if(pr=='0'||pr=='1'){
         Line st(currentUser,"Select book FAIL-Priority limited.");
         diary.write(st);
         error("you don't have the priority. Sign in first if you wanna select.");
     }
-    string Isbn=s.nextToken();
+    string Isbn;
+    cout<<"input ISBN";cin>>Isbn;
     if(!isISBN(Isbn))error("too long for isbn");
     book book1(Isbn);
     int x=bookList_ISBN.findOne(Isbn,book1);
@@ -304,7 +321,7 @@ void user::select(TokenScanner &s) {
     diary.write(dx);
 }
 
-void user::modify(TokenScanner &s) const{
+void user::modify() const{
     if(pr=='0'||pr=='1'){
         Line st(currentUser,"Modify book FAIL-Priority limited.");
         diary.write(st);
@@ -319,21 +336,16 @@ void user::modify(TokenScanner &s) const{
     book mod;
     library.read(mod,log_stack.back().second);
     bool a= false,n=false,isbn=false,k=false,p=false;
-    while(s.hasMoreToken()){
-        string t=s.nextToken().substr(1);
-        string type;
-        string token;
-        int len=t.length();int i=0;
-        while(i<len){
-            if(t[i]=='='){
-                type=t.substr(0,i);
-                token=t.substr(i+1);
-                break;
-            }
-            i++;
+    cout<<"start modification.";
+    while(true){
+        cout<<"input type.\n0.completed!\n1.price\n2.ISBN\n3.name\n4.author\n5.keyword\n";
+        int cmd;cin>>cmd;
+        if(cmd==0){
+            cout<<"complete modification!\n";break;
         }
-        if(i==len)error("token required.");
-        if(type=="ISBN"){
+        cout<<"input parameter";
+        string token;cin>>token;
+        if(cmd==2){
             if(isbn){
                 Line st(currentUser,"Modify book FAIL-Additional parameter repeated");
                 diary.write(st);
@@ -350,7 +362,7 @@ void user::modify(TokenScanner &s) const{
             isbn=true;
             mod.changeIsbn(token);
         }
-        if(type=="name") {
+        if(cmd==3) {
             if(n){
                         Line st(currentUser,"Modify book FAIL-Additional parameter repeated");
                         diary.write(st);
@@ -365,7 +377,7 @@ void user::modify(TokenScanner &s) const{
             n=true;
             mod.changeBookName(token);
         }
-        if(type=="author") {
+        if(cmd==4) {
             token=token.substr(1,token.length()-2);
             if(a){
                 Line st(currentUser,"Modify book FAIL-Additional parameter repeated");
@@ -379,7 +391,7 @@ void user::modify(TokenScanner &s) const{
             a=true;
             mod.changeAuthor(token);
         }
-        if(type=="keyword"){
+        if(cmd==5){
             if(k){
                 Line st(currentUser,"Modify book FAIL-Additional parameter repeated");
                 diary.write(st);error("no more keyword");
@@ -394,7 +406,7 @@ void user::modify(TokenScanner &s) const{
             k=true;
             mod.changeKeyword(token);
         }
-        if(type=="price"){
+        if(cmd==1){
             if(p){
                 Line st(currentUser,"Modify book FAIL-Additional parameter repeated");
                 diary.write(st);error("no price anymore.");
@@ -408,7 +420,6 @@ void user::modify(TokenScanner &s) const{
             p=true;
             mod.changePrice(token);
         }
-        if(type!="ISBN"&&type!="keyword"&&type!="author"&&type!="price"&&type!="name")error("type error");
     }
     Line dx(currentUser,"modified the book: "+string(currentBook.getIsbn())+'('+string(currentBook.getBookName())+')');
     currentBook.setModification(mod,currentOffset);
@@ -416,14 +427,16 @@ void user::modify(TokenScanner &s) const{
     diary.write(dx);
 }
 
-void user::buy(TokenScanner &s) const {
+void user::buy() const {
     if(pr=='0')error("beyond your priority");
-    string key=s.nextToken();
+    string key;
+    cout<<"input ISBN";cin>>key;
     if(!isISBN(key))error("invalid isbn");
     book book1;
     if(int ofs=bookList_ISBN.findOne(key,book1)){
         if(finance.getIndexMax()>5+sizeof(trade)*2147483647)error("full");
-        long long int quantity=stoll(s.nextToken());
+        long long int quantity;
+        cout<<"how much?";cin>>quantity;
         if(quantity>2147483647)error("invalid amount");
         book1.addAmount(-quantity);
         library.update(book1,ofs);
@@ -437,8 +450,8 @@ void user::buy(TokenScanner &s) const {
         string z="has bought "+ to_string(quantity)+" * "+book1.getBookName()+" in "+money;
         log x(currentUser.pr,currentUser.id,y);
         report.write(x);
-        Line zxc(currentUser,z);
-        diary.write(zxc);
+        Line temp(currentUser,z);
+        diary.write(temp);
     }else{
         Line x(currentUser,"buy FAIL-Book not found.");
         diary.write(x);
@@ -446,7 +459,7 @@ void user::buy(TokenScanner &s) const {
     }
 }
 
-void user::import(TokenScanner &s) const {
+void user::import() const {
     if(pr=='0'||pr=='1'){
         Line st(currentUser,"import book FAIL-Priority limited.");
         diary.write(st);
@@ -457,10 +470,12 @@ void user::import(TokenScanner &s) const {
         diary.write(st);
         error("select a book first.");
     }
-    int quantity= toNumber(s.nextToken());
+    long long int quantity;
+    cout<<"import how much?";cin>>quantity;
     if(quantity>2147483647)error("invalid amount");
     currentBook.addAmount(quantity);
-    double price= toFloat(s.nextToken());
+    cout<<"total cost is?";
+    double price;cin>>price;
     //todo:log data.
     trade lg(0,price);
     finance.write(lg);
@@ -470,8 +485,8 @@ void user::import(TokenScanner &s) const {
     log x(currentUser.pr,currentUser.id,lz);
     report.write(x);
     string l="has imported "+ to_string(quantity)+" * "+currentBook.getBookName()+" in "+money;
-    Line zxc(currentUser,l);
-    diary.write(zxc);
+    Line temp(currentUser,l);
+    diary.write(temp);
 }
 
 ostream &operator<<(ostream &os, const user &user) {
@@ -487,16 +502,16 @@ istream &operator>>(istream &is, user &user1) {
     return is;
 }
 
-void user::showFinance(const string& times) {
+void user::showFinance(int times) {
     if(pr!='7')error("You're not allowed to see this.");
     fstream file;
-    if(times=="0"){
+    if(times==0){
         cout<<'\n';return;
     }
     file.open("trade_data");
     trade sum(0,0);
     int d=finance.getIndexMax();
-    if(times=="all") {
+    if(times==-1) {
         while (d > 5) {
             trade tmp;
             finance.read(tmp, d);
@@ -506,7 +521,7 @@ void user::showFinance(const string& times) {
         cout<<fixed<<setprecision(2)<<sum<<'\n';
         return;
     }
-    int t=toNumber(times);
+    int t=times;
     if(t>(d-5)/sizeof(trade))error("trades limited.");
     while(t--&&d>5){
         trade tmp;
@@ -517,8 +532,7 @@ void user::showFinance(const string& times) {
     cout<<sum<<'\n';
 }
 
-void user::Log(TokenScanner &s) const {
-    if(s.hasMoreToken())error("zxc is too fat!");
+void user::Log() const {
     if(pr!='7')error("You're not allowed to see this.");
     fstream file;
     file.open("log_data");
@@ -531,12 +545,13 @@ void user::Log(TokenScanner &s) const {
     }
 }
 
-void user::Report(TokenScanner& s) {
-    string cmd=s.nextToken();
-    if(cmd=="myself"){reportMyself();return;}
-    if(cmd=="employee"){reportEmployee();return;}
-    if(cmd=="finance"){reportFinance();return;}
-    error("token Error!");
+void user::Report() {
+    int cmd;
+    cout<<"Report what?\n1.myself 2.employee 3.finance"<<endl;
+    cin>>cmd;
+    if(cmd==1){reportMyself();return;}
+    if(cmd==2){reportEmployee();return;}
+    if(cmd==3){reportFinance();return;}
 }
 
 void user::reportMyself() {

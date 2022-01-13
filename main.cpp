@@ -37,17 +37,18 @@ int main()
     bookList_keyword.initialize("book_keyword_map","book_data");
     user user1;
     currentUser=user1;
-    string exp;
-    cout<<"Welcome to 9cm's Bookstore!"<<endl;
+    int exp;
+    cout<<"Welcome to z_taylcr7's Bookstore!"<<endl;
 
-    while(getline(cin, exp)){
+    while(true){
         try {
-            if(exp=="")continue;
-            if (exp == "exit" || exp == "quit")break;
-            TokenScanner token_scanner(exp);
-            currentUser.allocate(token_scanner);
+            cout<<"0---->exit\n1---->su\n2---->logout\n3---->register\n4---->passwd\n5----->useradd\n6----->delete\n7---->show\n8---->buy\n9---->import\n10---->select\n11---->modify\n"
+                <<"12---->log\n13---->report"<<endl;
+            cin>>exp;
+            if (exp == 0)break;
+            currentUser.allocate(exp);
         }catch(errorException e){
-            cout<<"Invalid\n";
+            cout<<currentUser<<':'<<"Invalid:"<<e.getMessage()<<endl;
         }
     }
 }
